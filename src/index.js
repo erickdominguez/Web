@@ -1,13 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Root from './components/pages/Root';
+import ErrorPage from './components/pages/ErrorPage';
+import Sidebar from './UI/organisms/Sidebar';
+import Navigation from './UI/organisms/Navigation';
+import Views from './components/pages/Views';
+import Player from './UI/organisms/Player';
+import Playlist from './UI/organisms/Playlist'
 import reportWebVitals from './reportWebVitals';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "playlist/:playlistId",
+        element: <Playlist/>,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
