@@ -4,22 +4,23 @@ import { Typography } from "@mui/material"
 import Box from "@mui/material/Box"
 import Sidebar from "../../UI/organisms/Sidebar"
 import Toolbar from '@mui/material/Toolbar';
+import Player from "../../UI/organisms/Player"
 export default function Root() {
-  const drawerWidth = 240;
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Sidebar></Sidebar>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
-        <Toolbar />
-        {/*Views or Playlists?*/}
-        <Link to='/view'>Hey</Link>
-        <Link to='/v'>Hola</Link>
-        <Outlet></Outlet>
-      </Box>
-    </Box>
-    
+      <Box sx={{ display: 'flex' }}>
+        <Sidebar></Sidebar>
+        <Box
+          component="main"
+          
+        >
+          <Toolbar />
+          <Outlet></Outlet>
+          {/*Views or Playlists?*/}
+          <Link to='/view'>Hey</Link>
+          <Link to='/v'>Hola</Link>
+          
+        </Box>
+        <Player></Player>
+      </Box>    
   )
 }

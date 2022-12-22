@@ -48,7 +48,6 @@ export default function Sidebar(props) {
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
   return (
       <Box
         component="nav"
@@ -57,7 +56,6 @@ export default function Sidebar(props) {
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
-          container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
