@@ -5,9 +5,9 @@ import Root from './components/pages/Root';
 import ErrorPage from './components/pages/ErrorPage';
 import Sidebar from './UI/organisms/Sidebar';
 import Navigation from './UI/organisms/Navigation';
-import Views from './components/pages/Views';
 import Player from './UI/organisms/Player';
-import Playlist from './UI/organisms/Playlist'
+import SongList from './UI/organisms/SongList';
+import Playlists from './UI/organisms/Playlists'
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
@@ -21,9 +21,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "playlist/:playlistId",
-        element: <Playlist/>,
+        index: true,
+        element: <Playlists/>,
       },
+      {
+        path: "songList/:playlistId",
+        element: <SongList/>,
+      },
+      
     ],
   },
 ]);
