@@ -30,10 +30,7 @@ export default function BasicModal(props) {
   const [loginError, setLoginError] = useState();
   const [registerError, setRegisterError] = useState();
   //states for login data
-  const [loginFormData, setLoginFormData] = useState({
-    email: '',
-    password: '',
-  });
+
   //states for register data
   const [registerFormData, setRegisterFormData] = useState({
     name: '',
@@ -46,15 +43,7 @@ export default function BasicModal(props) {
     status: 'PENDING',
   });
   //handle changes for the forms
-  const handleLoginChange = (event) => {
-    const { name, value } = event.target;
-    setLoginFormData((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
+
   const handleRegisterChange = (event) => {
     const { name, value } = event.target;
     setRegisterFormData((prevState) => {
@@ -69,19 +58,6 @@ export default function BasicModal(props) {
   const handleLoginForm = () => setLogin(true);
 
   //api calls
-  const handleLoginData = async () => {
-    await api
-      .post('auth/login', loginFormData)
-      .then((response) => {
-        if (response.status === 200) {
-          props.setUser(response.data);
-          props.handleClose();
-        }
-      })
-      .catch((error) => {
-        setLoginError(true);
-      });
-  };
 
   const handleRegisterData = async () => {
     await api
@@ -107,12 +83,7 @@ export default function BasicModal(props) {
       >
         <Box sx={style}>
           {login ? (
-            <LoginForm
-              handleLoginChange={handleLoginChange}
-              handleLoginData={handleLoginData}
-              handleRegisterForm={handleRegisterForm}
-              loginError={loginError}
-            ></LoginForm>
+            <LoginForm handleClose={props.handleClose} loginError={loginError}></LoginForm>
           ) : (
             <RegisterForm
               handleLoginForm={handleLoginForm}

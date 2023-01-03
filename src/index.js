@@ -15,6 +15,8 @@ import {
 } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import LikedSongs from './UI/organisms/LikedSongs';
+import { Provider } from 'react-redux';
+import store from './app/store';
 
 const darkTheme = createTheme({
   palette: {
@@ -52,7 +54,9 @@ root.render(
   <ThemeProvider theme={darkTheme}>
     <CssBaseline />
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </React.StrictMode>
   </ThemeProvider>,
 );

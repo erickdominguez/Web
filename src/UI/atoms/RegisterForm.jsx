@@ -10,6 +10,15 @@ import DatePickerAtom from '../atoms/DatePickerAtom';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function RegisterForm(props) {
+  // const submitForm = (data) => {
+  //   // check if passwords match
+  //   if (data.password !== data.confirmPassword) {
+  //     alert('Password mismatch');
+  //   }
+  //   // transform email string to lowercase to avoid case sensitivity issues in login
+  //   data.email = data.email.toLowerCase();
+  //   dispatch(registerUser(data));
+  // };
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
   const gender = [
