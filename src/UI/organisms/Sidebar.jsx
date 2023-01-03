@@ -14,25 +14,26 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
 import AlbumIcon from '@mui/icons-material/Album';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
-import { blueGrey, orange } from '@mui/material/colors';
+import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material';
 
-const linkStyle = {
-  textDecoration: 'none',
-  color: 'aliceblue',
-};
-
-const activeStyle = {
-  textDecoration: 'none',
-  color: '#31AFB4',
-};
 export default function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerWidth = 240;
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const [user, setUser] = useState('');
+  const theme = useTheme();
+  const { loading, userInfo, error, success } = useSelector((state) => state.auth);
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'aliceblue',
+  };
+
+  const activeStyle = {
+    textDecoration: 'none',
+    color: theme.palette.primary.dark,
+  };
   const drawer = (
     <div>
       <List>
@@ -46,7 +47,8 @@ export default function Sidebar(props) {
             </ListItemButton>
           </ListItem>
         </NavLink>
-        {user !== '' ? (
+
+        {success ? (
           <NavLink to={`/liked`} style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             <ListItem disablePadding>
               <ListItemButton>
@@ -58,7 +60,7 @@ export default function Sidebar(props) {
             </ListItem>
           </NavLink>
         ) : null}
-        {user !== '' ? (
+        {success ? (
           <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             <ListItem disablePadding>
               <ListItemButton>
@@ -72,7 +74,7 @@ export default function Sidebar(props) {
         ) : null}
       </List>
       <Divider />
-      {user !== '' ? <SidebarPlaylists /> : <SidebarUser setUser={setUser} />}
+      {success ? <SidebarPlaylists /> : <SidebarUser />}
     </div>
   );
 

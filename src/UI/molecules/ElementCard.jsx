@@ -31,10 +31,7 @@ export default function PlaylistCard(props) {
           {props.subtitle}
         </Typography>
         <CardActions sx={{ padding: 0 }}>
-          <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label='add to favorites'>
+          <IconButton aria-label='play'>
             <PlayCircleIcon />
           </IconButton>
         </CardActions>

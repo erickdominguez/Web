@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Root from './components/pages/Root';
 import ErrorPage from './components/pages/ErrorPage';
-import SongList from './UI/organisms/SongList';
+import SongList from './UI/organisms/ElementList';
 import Playlists from './UI/organisms/Playlists';
 import reportWebVitals from './reportWebVitals';
 import Albums from './UI/organisms/Albums';
@@ -17,6 +17,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import LikedSongs from './UI/organisms/LikedSongs';
 import { Provider } from 'react-redux';
 import store from './app/store';
+import AlbumsList from './UI/organisms/AlbumsList';
 
 const darkTheme = createTheme({
   palette: {
@@ -44,6 +45,16 @@ const router = createBrowserRouter([
       {
         path: 'albums',
         element: <Albums />,
+        children: [
+          {
+            index: true,
+            element: <AlbumsList />,
+          },
+          {
+            path: ':id',
+            element: <SongList />,
+          },
+        ],
       },
     ],
   },
