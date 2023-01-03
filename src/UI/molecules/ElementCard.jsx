@@ -18,21 +18,17 @@ const CardContentNoPadding = styled(CardContent)(`
   }
 `);
 
-export default function PlaylistCard() {
+export default function PlaylistCard(props) {
   return (
     <Card sx={{ Width: 100 }}>
-      <CardMedia
-        component='img'
-        image='https://i.iheart.com/v3/re/new_assets/57f5174d654b9edfd3e746eb'
-        alt='Album cover'
-      />
+      <CardMedia component='img' image={props.img} alt='Album cover' />
       <CardContentNoPadding>
         <Typography sx={{ fontSize: 14 }} color='text.primary' gutterBottom>
-          Playlist title
+          {props.title}
         </Typography>
         <Typography variant='h5' component='div'></Typography>
         <Typography sx={{ mb: 1 }} color='text.secondary'>
-          Description
+          {props.subtitle}
         </Typography>
         <CardActions sx={{ padding: 0 }}>
           <IconButton aria-label='add to favorites'>

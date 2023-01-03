@@ -4,8 +4,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import { api } from '../../helpers/api';
+import LoginForm from '../atoms/LoginForm';
+import TextField from '@mui/material/TextField';
+import RegisterForm from '../atoms/RegisterForm';
+import { useTheme } from '@mui/material/styles';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,29 +23,79 @@ const style = {
 };
 
 export default function BasicModal(props) {
+  const theme = useTheme();
+  //state for the forms of login or forms
   const [login, setLogin] = useState(true);
-  const handleRegister = () => setLogin(false);
-  const handleLogin = () => setLogin(true);
+  //state of errors
+  const [loginError, setLoginError] = useState();
+  const [registerError, setRegisterError] = useState();
+  //states for login data
+  const [loginFormData, setLoginFormData] = useState({
+    email: '',
+    password: '',
+  });
+  //states for register data
+  const [registerFormData, setRegisterFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    birth: '',
+    country: '',
+    gender: '',
+    role: 'CONSUMER',
+    status: 'PENDING',
+  });
+  //handle changes for the forms
+  const handleLoginChange = (event) => {
+    const { name, value } = event.target;
+    setLoginFormData((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+  const handleRegisterChange = (event) => {
+    const { name, value } = event.target;
+    setRegisterFormData((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+  //functions for handling the switch between register and login forms
+  const handleRegisterForm = () => setLogin(false);
+  const handleLoginForm = () => setLogin(true);
 
-  const loginForm = (
-    <Box>
-      <TextField id='outlined-basic' label='Email' variant='outlined' />
-      <TextField id='outlined-basic' label='Password' variant='outlined' />
-      <Button
-        onClick={console.log(api.post('login', { email: 'auth@gmail.com', password: '123' }))}
-      >
-        Prueba
-      </Button>
-      <Button onClick={handleRegister}>Don't have an account? Register now</Button>
-    </Box>
-  );
-  const registerForm = (
-    <Box>
-      <TextField id='outlined-basic' label='Email' variant='outlined' />
-      <TextField id='outlined-basic' label='Password' variant='outlined' />
-      <Button onClick={handleLogin}>Already have an account? Log in now</Button>
-    </Box>
-  );
+  //api calls
+  const handleLoginData = async () => {
+    await api
+      .post('auth/login', loginFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          props.setUser(response.data);
+          props.handleClose();
+        }
+      })
+      .catch((error) => {
+        setLoginError(true);
+      });
+  };
+
+  const handleRegisterData = async () => {
+    await api
+      .post('auth/register', registerFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          props.setUser(response.data);
+          props.handleClose();
+        }
+      })
+      .catch((error) => {
+        setRegisterError(true);
+      });
+  };
 
   return (
     <div>
@@ -52,10 +106,21 @@ export default function BasicModal(props) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Log in or register
-          </Typography>
-          {login ? loginForm : registerForm}
+          {login ? (
+            <LoginForm
+              handleLoginChange={handleLoginChange}
+              handleLoginData={handleLoginData}
+              handleRegisterForm={handleRegisterForm}
+              loginError={loginError}
+            ></LoginForm>
+          ) : (
+            <RegisterForm
+              handleLoginForm={handleLoginForm}
+              handleRegisterData={handleRegisterData}
+              handleRegisterChange={handleRegisterChange}
+              registerError={registerError}
+            ></RegisterForm>
+          )}
         </Box>
       </Modal>
     </div>
