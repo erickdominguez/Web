@@ -10,36 +10,69 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SidebarPlaylists from '../molecules/SidebarPlaylists';
 import SidebarUser from '../molecules/SidebarUser';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HomeIcon from '@mui/icons-material/Home';
+import AlbumIcon from '@mui/icons-material/Album';
+import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { blueGrey, orange } from '@mui/material/colors';
 
+const linkStyle = {
+  textDecoration: 'none',
+  color: 'aliceblue',
+};
+
+const activeStyle = {
+  textDecoration: 'none',
+  color: '#31AFB4',
+};
 export default function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerWidth = 240;
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const user = false;
+  const [user, setUser] = useState('');
   const drawer = (
     <div>
       <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Home'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Liked Songs'} />
-          </ListItemButton>
-        </ListItem>
+        <NavLink to='/' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Home'} />
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
+        {user !== '' ? (
+          <NavLink to={`/liked`} style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <FavoriteIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Liked Songs'} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+        ) : null}
+        {user !== '' ? (
+          <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AlbumIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Albums'} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
+        ) : null}
       </List>
       <Divider />
-      {user ? <SidebarPlaylists /> : <SidebarUser />}
+      {user !== '' ? <SidebarPlaylists /> : <SidebarUser setUser={setUser} />}
     </div>
   );
 

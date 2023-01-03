@@ -8,6 +8,7 @@ import { api } from '../../helpers/api';
 import LoginForm from '../atoms/LoginForm';
 import TextField from '@mui/material/TextField';
 import RegisterForm from '../atoms/RegisterForm';
+import { useTheme } from '@mui/material/styles';
 
 const style = {
   position: 'absolute',
@@ -22,8 +23,12 @@ const style = {
 };
 
 export default function BasicModal(props) {
+  const theme = useTheme();
   //state for the forms of login or forms
   const [login, setLogin] = useState(true);
+  //state of errors
+  const [loginError, setLoginError] = useState();
+  const [registerError, setRegisterError] = useState();
   //states for login data
   const [loginFormData, setLoginFormData] = useState({
     email: '',
@@ -31,13 +36,12 @@ export default function BasicModal(props) {
   });
   //states for register data
   const [registerFormData, setRegisterFormData] = useState({
-    name: 'Mariel Venezuela',
-    email: 'mariel@gmail.com',
-    password: '123',
-    age: '27',
-    birth: '03/04/1094',
-    country: 'MEXICO',
-    gender: 'FEMALE',
+    name: '',
+    email: '',
+    password: '',
+    birth: '',
+    country: '',
+    gender: '',
     role: 'CONSUMER',
     status: 'PENDING',
   });
@@ -51,16 +55,46 @@ export default function BasicModal(props) {
       };
     });
   };
+  const handleRegisterChange = (event) => {
+    const { name, value } = event.target;
+    setRegisterFormData((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
   //functions for handling the switch between register and login forms
   const handleRegisterForm = () => setLogin(false);
   const handleLoginForm = () => setLogin(true);
+
   //api calls
-  const handleLoginData = () => {
-    api.post('users/login', loginFormData);
+  const handleLoginData = async () => {
+    await api
+      .post('auth/login', loginFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          props.setUser(response.data);
+          props.handleClose();
+        }
+      })
+      .catch((error) => {
+        setLoginError(true);
+      });
   };
 
-  const handleRegisterData = () => {
-    api.post('users/register', registerFormData);
+  const handleRegisterData = async () => {
+    await api
+      .post('auth/register', registerFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          props.setUser(response.data);
+          props.handleClose();
+        }
+      })
+      .catch((error) => {
+        setRegisterError(true);
+      });
   };
 
   return (
@@ -72,19 +106,19 @@ export default function BasicModal(props) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Log in or register
-          </Typography>
           {login ? (
             <LoginForm
               handleLoginChange={handleLoginChange}
               handleLoginData={handleLoginData}
               handleRegisterForm={handleRegisterForm}
+              loginError={loginError}
             ></LoginForm>
           ) : (
             <RegisterForm
               handleLoginForm={handleLoginForm}
               handleRegisterData={handleRegisterData}
+              handleRegisterChange={handleRegisterChange}
+              registerError={registerError}
             ></RegisterForm>
           )}
         </Box>
