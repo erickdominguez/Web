@@ -7,7 +7,6 @@ const initialState = {
   userToken: null, // for storing the JWT
   error: null,
   success: false, // for monitoring the registration process.
-  tempToken: null,
 };
 
 const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
@@ -39,8 +38,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.success = true;
       state.userInfo = payload.user;
-      state.userToken = payload.userToken;
-      state.tempToken = payload.token;
+      state.userToken = payload.token;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.loading = false;

@@ -17,12 +17,12 @@ export default function Playlists() {
     albums();
   }, []);
 
-  const { tempToken } = useSelector((state) => state.auth);
+  const { userToken } = useSelector((state) => state.auth);
   const [albumData, setAlbumData] = useState([]);
   const [loading, setLoading] = useState(true);
   const config = {
     headers: {
-      token: tempToken,
+      token: userToken,
     },
   };
   const albums = async () => {

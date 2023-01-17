@@ -22,7 +22,7 @@ export default function SongList() {
     songs();
   }, []);
 
-  const { tempToken } = useSelector((state) => state.auth);
+  const { userToken } = useSelector((state) => state.auth);
   let { id } = useParams();
   const [element, setElement] = useState({});
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ export default function SongList() {
       id: id,
     },
     headers: {
-      token: tempToken,
+      token: userToken,
     },
   };
 
