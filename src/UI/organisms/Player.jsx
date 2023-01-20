@@ -1,17 +1,68 @@
-import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import React, { useState, useEffect, useRef } from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-
+import audioSample from '../../components/Skott-Overcome.mp3';
 export default function Player() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [trackIndex, setTrackIndex] = useState(0);
   const theme = useTheme();
+  const audioRef = useRef(
+    new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'),
+  );
+  const [trackProgress, setTrackProgress] = useState(0);
+  const isReady = useRef(false);
+  const intervalRef = useRef();
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    // Pause and clean up on unmount
+    return () => {
+      audioRef.current.pause();
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+  useEffect(() => {
+    audioRef.current.pause();
+
+    audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    setTrackProgress(audioRef.current.currentTime);
+
+    if (isReady.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+      startTimer();
+    } else {
+      // Set the isReady ref as true for the next pass
+      isReady.current = true;
+    }
+  }, [trackIndex]);
+  const startTimer = () => {
+    // Clear any timers already running
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      if (audioRef.current.ended) {
+        // toNextTrack();
+        console.log('end');
+      } else {
+        setTrackProgress(audioRef.current.currentTime);
+      }
+    }, [1000]);
+  };
   return (
     <Box
       component='nav'
@@ -56,7 +107,12 @@ export default function Player() {
               <IconButton aria-label='previous'>
                 {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
               </IconButton>
-              <IconButton aria-label='play/pause'>
+              <IconButton
+                aria-label='play/pause'
+                onClick={() => {
+                  isPlaying ? setIsPlaying(false) : setIsPlaying(true);
+                }}
+              >
                 <PlayArrowIcon sx={{ height: 38, width: 38 }} />
               </IconButton>
               <IconButton aria-label='next'>
