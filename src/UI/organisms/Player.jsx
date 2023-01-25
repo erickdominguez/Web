@@ -9,42 +9,44 @@ import Typography from '@mui/material/Typography';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
+import PauseIcon from '@mui/icons-material/Pause';
+import { useSelector } from 'react-redux';
 import audioSample from '../../components/Skott-Overcome.mp3';
+import { useDispatch } from 'react-redux';
 export default function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
   const theme = useTheme();
-  const audioRef = useRef(
-    new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'),
-  );
+  const { songId } = useSelector((state) => state.player);
+  const audioRef = useRef(new Audio(`http://localhost:4000/api/song?id=${songId}`));
   const [trackProgress, setTrackProgress] = useState(0);
   const isReady = useRef(false);
   const intervalRef = useRef();
   useEffect(() => {
     if (isPlaying) {
       audioRef.current.play();
-    } else {
+    } else if (!isPlaying) {
       audioRef.current.pause();
     }
+    console.log(isPlaying);
   }, [isPlaying]);
 
-  useEffect(() => {
-    // Pause and clean up on unmount
-    return () => {
-      audioRef.current.pause();
-      clearInterval(intervalRef.current);
-    };
-  }, []);
+  // useEffect(() => {
+  //   // Pause and clean up on unmount
+  //   return () => {
+  //     audioRef.current.pause();
+  //     clearInterval(intervalRef.current);
+  //   };
+  // }, []);
   useEffect(() => {
     audioRef.current.pause();
 
-    audioRef.current = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    audioRef.current = new Audio(`http://localhost:4000/api/song?id=${songId}`);
     setTrackProgress(audioRef.current.currentTime);
 
     if (isReady.current) {
       audioRef.current.play();
       setIsPlaying(true);
-      startTimer();
     } else {
       // Set the isReady ref as true for the next pass
       isReady.current = true;
@@ -113,7 +115,11 @@ export default function Player() {
                   isPlaying ? setIsPlaying(false) : setIsPlaying(true);
                 }}
               >
-                <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                {isPlaying ? (
+                  <PauseIcon sx={{ height: 38, width: 38 }} />
+                ) : (
+                  <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                )}
               </IconButton>
               <IconButton aria-label='next'>
                 {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}

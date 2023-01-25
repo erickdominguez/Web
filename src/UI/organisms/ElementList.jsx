@@ -16,12 +16,13 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTheme } from '@mui/material/styles';
-
+import { useDispatch } from 'react-redux';
+import { setSong } from '../../features/player/playerSlice';
 export default function SongList() {
   useEffect(() => {
     songs();
   }, []);
-
+  const dispatch = useDispatch();
   const { userToken } = useSelector((state) => state.auth);
   let { id } = useParams();
   const [element, setElement] = useState({});
@@ -62,7 +63,12 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => (
-                  <ListItem disablePadding>
+                  <ListItem
+                    disablePadding
+                    onClick={() => {
+                      dispatch(setSong(song._id));
+                    }}
+                  >
                     <ListItemButton>
                       <ListItemAvatar>
                         <Avatar>
