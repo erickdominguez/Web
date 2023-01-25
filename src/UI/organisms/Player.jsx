@@ -11,7 +11,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PauseIcon from '@mui/icons-material/Pause';
 import { useSelector } from 'react-redux';
-import audioSample from '../../components/Skott-Overcome.mp3';
 import { useDispatch } from 'react-redux';
 export default function Player() {
   const [isPlaying, setIsPlaying] = useState(false);

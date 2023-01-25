@@ -3,7 +3,6 @@ import PlaylistCard from '../molecules/ElementCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import PlayerTest from '../../components/playerTest';
 export default function Playlists() {
   return (
     <Box p={3}>
