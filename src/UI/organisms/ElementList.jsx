@@ -43,7 +43,6 @@ export default function SongList() {
       .then((response) => {
         setElement(response.data);
         setLoading(false);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error.toJSON());
@@ -62,28 +61,33 @@ export default function SongList() {
           <List>
             {loading
               ? null
-              : element.songs.map((song) => (
-                  <ListItem
-                    disablePadding
-                    onClick={() => {
-                      dispatch(setSong(song._id));
-                    }}
-                  >
-                    <ListItemButton>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <ImageIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={song.title} secondary='Artist' />
-                      <ListItemText secondary={element.name} />
-                      <ListItemText secondary='2:09' />
-                      <FavoriteIcon
-                        sx={song.like ? { color: theme.palette.primary.dark } : null}
-                      ></FavoriteIcon>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
+              : element.songs.map((song) => {
+                  let songId = song._id;
+                  let title = song.title;
+                  let artist = element.name;
+                  return (
+                    <ListItem
+                      disablePadding
+                      onClick={() => {
+                        dispatch(setSong({ songId, title, artist }));
+                      }}
+                    >
+                      <ListItemButton>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <ImageIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={song.title} secondary='Artist' />
+                        <ListItemText secondary={element.name} />
+                        <ListItemText secondary='2:09' />
+                        <FavoriteIcon
+                          sx={song.like ? { color: theme.palette.primary.dark } : null}
+                        ></FavoriteIcon>
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                })}
           </List>
         </Grid>
       </Grid>

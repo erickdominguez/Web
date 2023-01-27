@@ -11,6 +11,8 @@ const initialState = {
   isActive: false,
   isPlaying: false,
   activeSong: {},
+  songTitle: '',
+  songArtist: '',
 };
 
 const playerSlice = createSlice({
@@ -18,8 +20,11 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setSong: (state, action) => {
-      state.activeSong = `http://localhost:4000/api/song?id=${action.payload}`;
+      state.activeSong = `http://localhost:4000/api/song?id=${action.payload.songId}`;
+      state.songTitle = action.payload.title;
+      state.songArtist = action.payload.artist;
       state.isActive = true;
+      state.isPlaying = true;
     },
 
     setActiveSong: (state, action) => {
