@@ -10,60 +10,36 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PauseIcon from '@mui/icons-material/Pause';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-export default function Player() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [trackIndex, setTrackIndex] = useState(0);
+export default function Player({
+  activeSong,
+  isPlaying,
+  volume,
+  seekTime,
+  onEnded,
+  onTimeUpdate,
+  onLoadedData,
+  repeat,
+  handlePlayPause,
+}) {
   const theme = useTheme();
-  const { songId } = useSelector((state) => state.player);
-  const audioRef = useRef(new Audio(`http://localhost:4000/api/song?id=${songId}`));
-  const [trackProgress, setTrackProgress] = useState(0);
-  const isReady = useRef(false);
-  const intervalRef = useRef();
-  useEffect(() => {
+  const ref = useRef(null);
+  // eslint-disable-next-line no-unused-expressions
+  if (ref.current) {
     if (isPlaying) {
-      audioRef.current.play();
-    } else if (!isPlaying) {
-      audioRef.current.pause();
-    }
-    console.log(isPlaying);
-  }, [isPlaying]);
-
-  // useEffect(() => {
-  //   // Pause and clean up on unmount
-  //   return () => {
-  //     audioRef.current.pause();
-  //     clearInterval(intervalRef.current);
-  //   };
-  // }, []);
-  useEffect(() => {
-    audioRef.current.pause();
-
-    audioRef.current = new Audio(`http://localhost:4000/api/song?id=${songId}`);
-    setTrackProgress(audioRef.current.currentTime);
-
-    if (isReady.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
+      ref.current.play();
     } else {
-      // Set the isReady ref as true for the next pass
-      isReady.current = true;
+      ref.current.pause();
     }
-  }, [trackIndex]);
-  const startTimer = () => {
-    // Clear any timers already running
-    clearInterval(intervalRef.current);
+  }
 
-    intervalRef.current = setInterval(() => {
-      if (audioRef.current.ended) {
-        // toNextTrack();
-        console.log('end');
-      } else {
-        setTrackProgress(audioRef.current.currentTime);
-      }
-    }, [1000]);
-  };
+  useEffect(() => {
+    ref.current.volume = volume;
+  }, [volume]);
+  // updates audio element only on seekTime change (and not on each rerender):
+  useEffect(() => {
+    ref.current.currentTime = seekTime;
+  }, [seekTime]);
+
   return (
     <Box
       component='nav'
@@ -74,6 +50,14 @@ export default function Player() {
       }}
       aria-label='mailbox folders'
     >
+      <audio
+        src={activeSong}
+        ref={ref}
+        loop={repeat}
+        onEnded={onEnded}
+        onTimeUpdate={onTimeUpdate}
+        onLoadedData={onLoadedData}
+      />
       <Box
         sx={{
           left: 0,
@@ -108,12 +92,7 @@ export default function Player() {
               <IconButton aria-label='previous'>
                 {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
               </IconButton>
-              <IconButton
-                aria-label='play/pause'
-                onClick={() => {
-                  isPlaying ? setIsPlaying(false) : setIsPlaying(true);
-                }}
-              >
+              <IconButton aria-label='play/pause' onClick={handlePlayPause}>
                 {isPlaying ? (
                   <PauseIcon sx={{ height: 38, width: 38 }} />
                 ) : (

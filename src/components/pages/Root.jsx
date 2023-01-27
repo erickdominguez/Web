@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Sidebar from '../../UI/organisms/Sidebar';
 import Toolbar from '@mui/material/Toolbar';
-import Player from '../../UI/organisms/Player';
+import MusicPlayer from '../../UI/organisms/MusicPlayer/index';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -32,7 +32,7 @@ export default function Root() {
         </Box>
       </Box>
       {/*Views or Playlists?*/}
-      <Player></Player>
+      <MusicPlayer></MusicPlayer>
     </Box>
   );
 }
