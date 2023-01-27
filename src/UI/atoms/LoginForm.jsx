@@ -60,6 +60,7 @@ export default function LoginForm(props) {
             onChange={handleLoginChange}
             sx={gridItemStyle}
             size='small'
+            type='password'
           />
         </Grid>
       </Grid>

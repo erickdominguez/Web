@@ -83,7 +83,11 @@ export default function BasicModal(props) {
       >
         <Box sx={style}>
           {login ? (
-            <LoginForm handleClose={props.handleClose} loginError={loginError}></LoginForm>
+            <LoginForm
+              handleClose={props.handleClose}
+              loginError={loginError}
+              handleRegisterForm={handleRegisterForm}
+            ></LoginForm>
           ) : (
             <RegisterForm
               handleLoginForm={handleLoginForm}
