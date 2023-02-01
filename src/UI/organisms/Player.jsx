@@ -44,7 +44,7 @@ export default function Player({
     position: 'fixed',
     borderBlockColor: 'palette.divider',
   };
-  const { songArtist, songTitle, isActive } = useSelector((state) => state.player);
+  const { songArtist, songTitle, isActive, songImg } = useSelector((state) => state.player);
   // eslint-disable-next-line no-unused-expressions
   if (ref.current) {
     if (isPlaying) {
@@ -90,7 +90,7 @@ export default function Player({
             <CardMedia
               component='img'
               sx={{ maxWidth: 151 }}
-              image='https://i.iheart.com/v3/re/new_assets/57f5174d654b9edfd3e746eb'
+              image={songImg}
               alt='Live from space album cover'
             />
             <Box sx={{ display: 'block', alignItems: 'center', pl: 1, pb: 1 }}>

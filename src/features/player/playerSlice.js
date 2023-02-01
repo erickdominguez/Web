@@ -6,6 +6,7 @@ const initialState = {
   playing: false,
   trackProgress: 0,
   songId: '',
+  songImg: '',
   currentSongs: [],
   currentIndex: 0,
   isActive: false,
@@ -25,6 +26,7 @@ const playerSlice = createSlice({
       state.songArtist = action.payload.artist;
       state.isActive = true;
       state.isPlaying = true;
+      state.songImg = `http://localhost:4000/api/media?id=${action.payload.id}`;
     },
 
     setActiveSong: (state, action) => {

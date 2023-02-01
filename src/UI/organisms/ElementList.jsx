@@ -62,23 +62,23 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => {
+                console.log(song);
                   let songId = song._id;
                   let title = song.title;
-                  let artist = element.name;
+                  let artist = element.author.name;
                   return (
                     <ListItem
                       disablePadding
                       onClick={() => {
-                        dispatch(setSong({ songId, title, artist }));
+                        dispatch(setSong({ songId, title, artist, id }));
                       }}
                     >
                       <ListItemButton>
                         <ListItemAvatar>
-                          <Avatar>
-                            <ImageIcon />
-                          </Avatar>
+                          <Avatar src={`http://localhost:4000/api/media?id=${id}`}/>
+                            
                         </ListItemAvatar>
-                        <ListItemText primary={song.title} secondary='Artist' />
+                        <ListItemText primary={song.title} secondary={artist} />
                         <ListItemText secondary={element.name} />
                         <ListItemText secondary='2:09' />
                         <FavoriteIcon

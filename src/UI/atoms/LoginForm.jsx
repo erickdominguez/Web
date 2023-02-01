@@ -21,6 +21,14 @@ export default function LoginForm(props) {
     password: '',
   });
 
+  const formPreventDefault= (e)=>{
+    
+    e.preventDefault();
+    if(e.key === 'Enter'){
+     submitForm(loginFormData);
+    }
+  }
+
   const handleLoginChange = (event) => {
     const { name, value } = event.target;
     setLoginFormData((prevState) => {
@@ -39,7 +47,7 @@ export default function LoginForm(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Typography variant='h5'>To continue please sign in</Typography>
-      <Grid container spacing={2} marginY={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginY={2} >
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -47,6 +55,7 @@ export default function LoginForm(props) {
             variant='outlined'
             name='email'
             onChange={handleLoginChange}
+            
             sx={gridItemStyle}
             size='small'
           />
@@ -58,6 +67,7 @@ export default function LoginForm(props) {
             variant='outlined'
             name='password'
             onChange={handleLoginChange}
+            
             sx={gridItemStyle}
             size='small'
             type='password'
