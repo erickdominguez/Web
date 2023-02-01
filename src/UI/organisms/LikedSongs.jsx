@@ -58,7 +58,7 @@ export default function LikedSongs() {
   };
 
   const album = async (id) => {
-    const configAlbum = {
+    const config = {
       params: {
         id: id,
       },
@@ -69,7 +69,7 @@ export default function LikedSongs() {
 
 
      return await api
-    .get(`album`, configAlbum)
+    .get(`album`, config)
       .then((response) => {
        
         return response
@@ -80,6 +80,24 @@ export default function LikedSongs() {
       
   };
 
+  const unlike = async (songId) =>{
+    const config = {
+      data :{
+        id: userInfo._id,
+        song: songId
+      },
+      headers: {
+        token: userToken,
+      },
+      
+    };
+
+    await api.delete('users/dislike', config)
+    
+    .catch((error) => {
+      console.log(error.toJSON());
+    });
+  }
   
   return (
     <Box>
@@ -100,18 +118,19 @@ export default function LikedSongs() {
             let title = song.title;
             let id = song.album;
             return(
-              <ListItem disablePadding onClick={() => {
+              <ListItem disablePadding >
+                <ListItemButton onClick={() => {
                 dispatch(setSong({ songId, title, artist, id }));
               }}>
-                <ListItemButton>
                   <ListItemAvatar>
                   <Avatar src={`http://localhost:4000/api/media?id=${song.album}`}/>
                   </ListItemAvatar>
                   <ListItemText primary={song.title} secondary={artist} />
                   <ListItemText secondary={album} />
                   <ListItemText secondary='2:09' />
-                  <FavoriteIcon sx={{ color: theme.palette.primary.dark }}></FavoriteIcon>
+                  
                 </ListItemButton>
+                <FavoriteIcon sx={{ color: theme.palette.primary.dark }} onMouseEnter={() => console.log("siii")} onClick={()=>unlike(song._id)}></FavoriteIcon>
               </ListItem>
             )})}
           </List>
