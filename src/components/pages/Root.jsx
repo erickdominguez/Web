@@ -27,7 +27,7 @@ export default function Root() {
     <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       <Box sx={{ display: 'flex' }}>
         <Sidebar></Sidebar>
-        <Box sx={{ overflow: 'scroll' }}>
+        <Box>
           <Outlet></Outlet>
         </Box>
       </Box>

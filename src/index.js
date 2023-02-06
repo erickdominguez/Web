@@ -11,7 +11,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
   ThemeProvider,
   createTheme,
-  Experimental_CssVarsProvider as CssVarsProvider,
 } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import LikedSongs from './UI/organisms/LikedSongs';

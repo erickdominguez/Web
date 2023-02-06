@@ -17,6 +17,7 @@ export default function Playlists() {
     albums();
   }, []);
 
+
   const { userToken } = useSelector((state) => state.auth);
   const [albumData, setAlbumData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ export default function Playlists() {
       token: userToken,
     },
   };
+
   const albums = async () => {
     await api
       .get('album/all', config)
@@ -45,12 +47,13 @@ export default function Playlists() {
             <CircularProgress />
           </Grid>
         ) : (
-          albumData.map((album) => (
+          albumData.map((album) =>(
             <Grid item xs={3} key={album._id}>
               <Link to={`${album._id}`} style={linkStyle}>
                 <AlbumCard
-                  img='https://us.123rf.com/450wm/paulcarft/paulcarft2107/paulcarft210700048/paulcarft210700048.jpg?ver=6'
+                  img={`http://localhost:4000/api/media?id=${album._id}`}
                   title={album.name}
+                  subtitle={album.author.name}
                 ></AlbumCard>
               </Link>
             </Grid>
