@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -24,7 +23,7 @@ export default function Sidebar(props) {
     setMobileOpen(!mobileOpen);
   };
   const theme = useTheme();
-  const { loading, userInfo, error, success } = useSelector((state) => state.auth);
+  const { success } = useSelector((state) => state.auth);
   const linkStyle = {
     textDecoration: 'none',
     color: 'aliceblue',
