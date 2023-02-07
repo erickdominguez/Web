@@ -1,8 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef } from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';

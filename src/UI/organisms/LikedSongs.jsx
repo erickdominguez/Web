@@ -2,18 +2,15 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import CircularProgress from '@mui/material/CircularProgress';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
-import ImageIcon from '@mui/icons-material/Image';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { api } from '../../helpers/api';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useTheme } from '@mui/material/styles';
@@ -26,7 +23,6 @@ export default function LikedSongs() {
   const [loading, setLoading] = useState(true);
   const [albumInfo, setAlbumInfo] = useState([])
   const [likedSongs, setLikedSongs] = useState({});
-  const [songInfo, setSongInfo] = useState({})
   const theme = useTheme();
 
   useEffect(() => {

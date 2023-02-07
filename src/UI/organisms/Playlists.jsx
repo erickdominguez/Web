@@ -6,41 +6,15 @@ import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+
 
 export default function Playlists() {
-  const { userInfo, userToken } = useSelector((state) => state.auth);
+  
   useEffect(() => {
     // artists();
   }, [])
-  
-  const config = {
-    headers: {
-      token: userToken,
-    },
-  };
 
-  
-
-  // const artists = async () => {
-  //   await api
-  //     .get(`users?id=${userInfo?._id}`, config)
-  //     .then((response) => {
-  //      Promise.all(response.data.likes.map((song)=>{
-  //         return album(song.album);
-  //       })).then((response)=>{setAlbumInfo(response)})
-  //       setLikedSongs(response.data.likes);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.toJSON());
-  //     });
-    
-  // };
   
   const itemData = [
     {

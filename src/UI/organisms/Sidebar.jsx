@@ -110,5 +110,3 @@ export default function Sidebar(props) {
     </Box>
   );
 }
-
-function ResponsiveDrawer(props) {}
