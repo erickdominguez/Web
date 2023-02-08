@@ -41,10 +41,10 @@ export default function LikedSongs() {
     await api
       .get(`users?id=${userInfo?._id}`, config)
       .then((response) => {
-       Promise.all(response.data.likes.map((song)=>{
+       Promise.all(response?.data?.likes.map((song)=>{
           return album(song.album);
         })).then((response)=>{setAlbumInfo(response)})
-        setLikedSongs(response.data.likes);
+        setLikedSongs(response?.data?.likes);
         setLoading(false);
       })
       .catch((error) => {
@@ -108,11 +108,11 @@ export default function LikedSongs() {
             {loading ? <Grid>
             <CircularProgress />
           </Grid> : likedSongs.map( (song, index) => {
-            let artist = albumInfo[index]?.data.author.name;
-            let album = albumInfo[index]?.data.name;
-            let songId = song._id;
-            let title = song.title;
-            let id = song.album;
+            let artist = albumInfo[index]?.data?.author?.name;
+            let album = albumInfo[index]?.data?.name;
+            let songId = song?._id;
+            let title = song?.title;
+            let id = song?.album;
             return(
               <ListItem disablePadding >
                 <ListItemButton onClick={() => {

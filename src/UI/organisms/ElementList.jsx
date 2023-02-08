@@ -102,9 +102,9 @@ export default function SongList() {
               ? null
               : element.songs.map((song) => {
                 console.log(song);
-                  let songId = song._id;
-                  let title = song.title;
-                  let artist = element.author.name;
+                  let songId = song?._id;
+                  let title = song?.title;
+                  let artist = element?.author?.name;
                   return (
                     <ListItem
                       disablePadding

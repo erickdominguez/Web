@@ -48,12 +48,12 @@ export default function Playlists() {
           </Grid>
         ) : (
           albumData.map((album) =>(
-            <Grid item xs={3} key={album._id}>
-              <Link to={`${album._id}`} style={linkStyle}>
+            <Grid item xs={3} key={album?._id}>
+              <Link to={`${album?._id}`} style={linkStyle}>
                 <AlbumCard
-                  img={`http://localhost:4000/api/media?id=${album._id}`}
-                  title={album.name}
-                  subtitle={album.author.name}
+                  img={`http://localhost:4000/api/media?id=${album?._id}`}
+                  title={album?.name}
+                  subtitle={album?.author?.name}
                 ></AlbumCard>
               </Link>
             </Grid>

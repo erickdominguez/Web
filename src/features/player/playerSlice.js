@@ -20,7 +20,7 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setSong: (state, action) => {
-      state.activeSong = `http://localhost:4000/api/song?id=${action.payload.songId}`;
+      state.activeSong = `http://localhost:4000/api/song/song?id=${action.payload.songId}`;
       state.songTitle = action.payload.title;
       state.songArtist = action.payload.artist;
       state.isActive = true;

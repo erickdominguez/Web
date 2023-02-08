@@ -6,54 +6,52 @@ import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+<<<<<<< Updated upstream
 import { useEffect } from 'react';
 
 
 export default function Playlists() {
   
+=======
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { api } from '../../helpers/api';
+
+export default function Playlists() {
+  const { userToken } = useSelector((state) => state.auth);
+  const [artistArray, setArtistArray] = useState([]);
+>>>>>>> Stashed changes
   useEffect(() => {
-    // artists();
+    artists();
   }, [])
 
+<<<<<<< Updated upstream
+=======
+  const artists = async () => {
+    await api
+      .get('artist/all', config)
+      .then((response) => {
+          console.log(response.data);
+         setArtistArray(response.data);
+      })
+      .catch((error) => {
+        console.log(error.toJSON());
+      });
+    
+  };
+>>>>>>> Stashed changes
   
-  const itemData = [
-    {
-      img: 'https://cdns-images.dzcdn.net/images/artist/82e214b0cb39316f4a12a082fded54f6/500x500.jpg',
-      title: 'Avicii',
-    },
-    {
-      img: 'https://media.pitchfork.com/photos/592c550e13d197565213ef49/16:9/w_1280,c_limit/4b594f8c.jpg',
-      title: 'Joe Hisaishi'
-    },
-    {
-      img: 'https://media.pitchfork.com/photos/592c550e13d197565213ef49/16:9/w_1280,c_limit/4b594f8c.jpg',
-      title: 'Joe Hisaishi'
-    },
-    {
-      img: 'https://readdork.com/wp-content/uploads/2020/11/skott-94.jpg',
-      title: 'Skott'
-    },
-    {
-      img: 'https://readdork.com/wp-content/uploads/2020/11/skott-94.jpg',
-      title: 'Skott'
-    },
-    {
-      img: 'https://cdns-images.dzcdn.net/images/artist/82e214b0cb39316f4a12a082fded54f6/500x500.jpg',
-      title: 'Avicii', 
-    },
-
-  ];
   return (
     <Box p={3}>
       <Typography variant='h2'>Discover new music</Typography>
       <ImageList sx={{}} cols={10}>
      
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
+      {artistArray.map((item) => (
+        <ImageListItem key={`http://localhost:4000/api/media?id=${item._id}`}>
           <img
-            src={item.img}
-            srcSet={item.img}
-            alt={item.title}
+            src={`http://localhost:4000/api/media?id=${item._id}`}
+            srcSet={`http://localhost:4000/api/media?id=${item._id}`}
+            alt={item.name}
             loading="lazy"
             style={{
               height : '100px',
@@ -63,7 +61,7 @@ export default function Playlists() {
             }}
           />
           <ImageListItemBar
-            title={item.title}
+            title={item.name}
             position="below"
 
             
