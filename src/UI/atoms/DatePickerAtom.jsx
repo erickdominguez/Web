@@ -8,9 +8,20 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 export default function MaterialUIPickers(props) {
   const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
   const gridItemStyle = { width: '100%' };
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  
+  const toStringDate = (newValue) => {
+    let month;
+    if(newValue.$M>=9){
+      month = newValue.$M + 1;
+    }
+    else{
+      month = newValue.$M + 1;
+      month = '0' + month;
+    }
+    
+    let date = newValue.$D + '/' + month + '/' + newValue.$y
+    console.log(date);
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -21,11 +32,11 @@ export default function MaterialUIPickers(props) {
         name={props.name}
         onChange={(newValue) => {
           setValue(newValue);
-          console.log(newValue)
+          toStringDate(newValue);
         }}
-        renderInput={(params) => <TextField {...params} />}
-        size='small'
-        sx={gridItemStyle}
+        renderInput={(params) => <TextField size='small'
+        sx={gridItemStyle}  {...params} />}
+        
       />
     </LocalizationProvider>
   );
