@@ -2,12 +2,13 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Dayjs } from 'dayjs';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import DatePickerAtom from '../atoms/DatePickerAtom';
 import MenuItem from '@mui/material/MenuItem';
+import { api } from '../../helpers/api';
+import { useState } from 'react';
 
 export default function RegisterForm(props) {
   // const submitForm = (data) => {
@@ -19,6 +20,43 @@ export default function RegisterForm(props) {
   //   data.email = data.email.toLowerCase();
   //   dispatch(registerUser(data));
   // };
+    //states for register data
+    const [registerFormData, setRegisterFormData] = useState({
+      name: '',
+      email: '',
+      password: '',
+      birth: '',
+      country: '',
+      gender: '',
+      role: 'CONSUMER',
+      status: 'PENDING',
+    });
+    //handle changes for the forms
+  
+    const handleRegisterChange = (event) => {
+      const { name, value } = event.target;
+      setRegisterFormData((prevState) => {
+        return {
+          ...prevState,
+          [name]: value,
+        };
+      });
+    };
+
+
+  const handleRegisterData = async () => {
+    await api
+      .post('auth/register', registerFormData)
+      .then((response) => {
+        if (response.status === 200) {
+          props.setUser(response.data);
+          props.handleClose();
+        }
+      })
+      .catch((error) => {
+        props.setRegisterError(true);
+      });
+  };
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
   const gender = [
@@ -47,7 +85,7 @@ export default function RegisterForm(props) {
             label='Name'
             variant='outlined'
             name='name'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           />
@@ -58,7 +96,7 @@ export default function RegisterForm(props) {
             label='Email'
             variant='outlined'
             name='email'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           />
@@ -69,7 +107,7 @@ export default function RegisterForm(props) {
             label='Password'
             variant='outlined'
             name='password'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           />
@@ -79,13 +117,13 @@ export default function RegisterForm(props) {
             id='outlined-basic'
             label='Confirm password'
             variant='outlined'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           />
         </Grid>
         <Grid item xs={12}>
-          <DatePickerAtom name='birth' onChange={props.handleRegisterChange}></DatePickerAtom>
+          <DatePickerAtom name='birth' onChange={handleRegisterChange}></DatePickerAtom>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -94,7 +132,7 @@ export default function RegisterForm(props) {
             label='Country'
             variant='outlined'
             name='country'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           >
@@ -112,7 +150,7 @@ export default function RegisterForm(props) {
             label='Gender'
             variant='outlined'
             name='gender'
-            onChange={props.handleRegisterChange}
+            onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
           >
@@ -129,7 +167,7 @@ export default function RegisterForm(props) {
           There is already an account with that email
         </Typography>
       ) : null}
-      <Button onClick={props.handleRegisterData} variant='contained'>
+      <Button onClick={handleRegisterData} variant='contained'>
         Register
       </Button>
       <Button onClick={props.handleLoginForm}>Already have an account? Log in now</Button>

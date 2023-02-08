@@ -21,6 +21,7 @@ export default function MaterialUIPickers(props) {
     
     let date = newValue.$D + '/' + month + '/' + newValue.$y
     console.log(date);
+    
   }
 
   return (

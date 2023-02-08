@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import { api } from '../../helpers/api';
+
 import LoginForm from '../atoms/LoginForm';
 import TextField from '@mui/material/TextField';
 import RegisterForm from '../atoms/RegisterForm';
@@ -29,49 +29,10 @@ export default function BasicModal(props) {
   //state of errors
   const [loginError, setLoginError] = useState();
   const [registerError, setRegisterError] = useState();
-  //states for login data
 
-  //states for register data
-  const [registerFormData, setRegisterFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    birth: '',
-    country: '',
-    gender: '',
-    role: 'CONSUMER',
-    status: 'PENDING',
-  });
-  //handle changes for the forms
-
-  const handleRegisterChange = (event) => {
-    const { name, value } = event.target;
-    setRegisterFormData((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
   //functions for handling the switch between register and login forms
   const handleRegisterForm = () => setLogin(false);
   const handleLoginForm = () => setLogin(true);
-
-  //api calls
-
-  const handleRegisterData = async () => {
-    await api
-      .post('auth/register', registerFormData)
-      .then((response) => {
-        if (response.status === 200) {
-          props.setUser(response.data);
-          props.handleClose();
-        }
-      })
-      .catch((error) => {
-        setRegisterError(true);
-      });
-  };
 
   return (
     <div>
@@ -90,9 +51,8 @@ export default function BasicModal(props) {
             ></LoginForm>
           ) : (
             <RegisterForm
+              handleClose={props.handleClose}
               handleLoginForm={handleLoginForm}
-              handleRegisterData={handleRegisterData}
-              handleRegisterChange={handleRegisterChange}
               registerError={registerError}
             ></RegisterForm>
           )}
