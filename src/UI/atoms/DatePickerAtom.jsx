@@ -15,11 +15,14 @@ export default function MaterialUIPickers(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker
-        label='Date desktop'
+        label='Date'
         inputFormat='DD/MM/YYYY'
         value={value}
         name={props.name}
-        onChange={() => console.log(value)}
+        onChange={(newValue) => {
+          setValue(newValue);
+          console.log(newValue)
+        }}
         renderInput={(params) => <TextField {...params} />}
         size='small'
         sx={gridItemStyle}
