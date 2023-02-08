@@ -20,29 +20,28 @@ export default function RegisterForm(props) {
   //   data.email = data.email.toLowerCase();
   //   dispatch(registerUser(data));
   // };
-    //states for register data
-    const [registerFormData, setRegisterFormData] = useState({
-      name: '',
-      email: '',
-      password: '',
-      birth: '',
-      country: '',
-      gender: '',
-      role: 'CONSUMER',
-      status: 'PENDING',
-    });
-    //handle changes for the forms
-  
-    const handleRegisterChange = (event) => {
-      const { name, value } = event.target;
-      setRegisterFormData((prevState) => {
-        return {
-          ...prevState,
-          [name]: value,
-        };
-      });
-    };
+  //states for register data
+  const [registerFormData, setRegisterFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    birth: '',
+    country: '',
+    gender: '',
+    role: 'CONSUMER',
+    status: 'PENDING',
+  });
+  //handle changes for the forms
 
+  const handleRegisterChange = (event) => {
+    const { name, value } = event.target;
+    setRegisterFormData((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
 
   const handleRegisterData = async () => {
     await api
@@ -123,7 +122,7 @@ export default function RegisterForm(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <DatePickerAtom name='birth' onChange={handleRegisterChange}></DatePickerAtom>
+          <DatePickerAtom name='birth' setRegisterFormData={setRegisterFormData}></DatePickerAtom>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -132,6 +131,7 @@ export default function RegisterForm(props) {
             label='Country'
             variant='outlined'
             name='country'
+            value={registerFormData.country}
             onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
@@ -148,6 +148,7 @@ export default function RegisterForm(props) {
             select
             id='outlined-basic'
             label='Gender'
+            value={registerFormData.gender}
             variant='outlined'
             name='gender'
             onChange={handleRegisterChange}
