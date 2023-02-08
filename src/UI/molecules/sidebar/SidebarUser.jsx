@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import LoginModal from '../molecules/LoginModal';
+import AuthModal from '../../organisms/AuthModal';
 
 export default function SidebarUser(props) {
   const [open, setOpen] = React.useState(false);
@@ -9,7 +9,7 @@ export default function SidebarUser(props) {
   const handleClose = () => setOpen(false);
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <LoginModal open={open} handleClose={handleClose}></LoginModal>
+      <AuthModal open={open} handleClose={handleClose} />
       <Button onClick={handleOpen} variant='outlined' sx={{}}>
         Log In
       </Button>

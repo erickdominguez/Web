@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { loginUser } from '../../features/auth/authActions';
+import { loginUser } from '../../../features/auth/authActions';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 
@@ -21,13 +21,12 @@ export default function LoginForm(props) {
     password: '',
   });
 
-  const formPreventDefault= (e)=>{
-    
+  const formPreventDefault = (e) => {
     e.preventDefault();
-    if(e.key === 'Enter'){
-     submitForm(loginFormData);
+    if (e.key === 'Enter') {
+      submitForm(loginFormData);
     }
-  }
+  };
 
   const handleLoginChange = (event) => {
     const { name, value } = event.target;
@@ -47,7 +46,7 @@ export default function LoginForm(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Typography variant='h5'>To continue please sign in</Typography>
-      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginY={2} >
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginY={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -55,7 +54,6 @@ export default function LoginForm(props) {
             variant='outlined'
             name='email'
             onChange={handleLoginChange}
-            
             sx={gridItemStyle}
             size='small'
           />
@@ -67,7 +65,6 @@ export default function LoginForm(props) {
             variant='outlined'
             name='password'
             onChange={handleLoginChange}
-            
             sx={gridItemStyle}
             size='small'
             type='password'

@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import DatePickerAtom from '../atoms/DatePickerAtom';
+import DatePickerAtom from '../../atoms/DatePickerAtom';
 import MenuItem from '@mui/material/MenuItem';
-import { api } from '../../helpers/api';
+import { api } from '../../../helpers/api';
 import { useState } from 'react';
 
 export default function RegisterForm(props) {
@@ -26,8 +26,6 @@ export default function RegisterForm(props) {
     email: '',
     password: '',
     birth: '',
-    country: '',
-    gender: '',
     role: 'CONSUMER',
     status: 'PENDING',
   });
@@ -58,26 +56,10 @@ export default function RegisterForm(props) {
   };
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
-  const gender = [
-    {
-      value: 'FEMALE',
-      label: 'Female',
-    },
-    {
-      value: 'MALE',
-      label: 'Male',
-    },
-  ];
-  const country = [
-    {
-      value: 'MEXICO',
-      label: 'Mexico',
-    },
-  ];
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Typography variant='h5'>To continue, please register</Typography>
-      <Grid container spacing={2} marginY={2}>
+      <Grid container spacing={2} marginBottom={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -124,44 +106,6 @@ export default function RegisterForm(props) {
         <Grid item xs={12}>
           <DatePickerAtom name='birth' setRegisterFormData={setRegisterFormData}></DatePickerAtom>
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            select
-            id='outlined-basic'
-            label='Country'
-            variant='outlined'
-            name='country'
-            value={registerFormData.country}
-            onChange={handleRegisterChange}
-            sx={gridItemStyle}
-            size='small'
-          >
-            {country.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            select
-            id='outlined-basic'
-            label='Gender'
-            value={registerFormData.gender}
-            variant='outlined'
-            name='gender'
-            onChange={handleRegisterChange}
-            sx={gridItemStyle}
-            size='small'
-          >
-            {gender.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
       </Grid>
       {props.registerError ? (
         <Typography color={theme.palette.error.main} mb={2}>
@@ -171,7 +115,6 @@ export default function RegisterForm(props) {
       <Button onClick={handleRegisterData} variant='contained'>
         Register
       </Button>
-      <Button onClick={props.handleLoginForm}>Already have an account? Log in now</Button>
     </Box>
   );
 }

@@ -5,9 +5,10 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 
-import LoginForm from '../atoms/LoginForm';
+import LoginForm from '../molecules/auth/LoginForm';
 import TextField from '@mui/material/TextField';
-import RegisterForm from '../atoms/RegisterForm';
+import RegisterForm from '../molecules/auth/ArtistRegisterForm';
+import RegisterTabs from '../molecules/auth/RegisterTabs';
 import { useTheme } from '@mui/material/styles';
 
 const style = {
@@ -50,11 +51,11 @@ export default function BasicModal(props) {
               handleRegisterForm={handleRegisterForm}
             ></LoginForm>
           ) : (
-            <RegisterForm
+            <RegisterTabs
               handleClose={props.handleClose}
               handleLoginForm={handleLoginForm}
               registerError={registerError}
-            ></RegisterForm>
+            ></RegisterTabs>
           )}
         </Box>
       </Modal>
