@@ -6,13 +6,6 @@ import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-<<<<<<< Updated upstream
-import { useEffect } from 'react';
-
-
-export default function Playlists() {
-  
-=======
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { api } from '../../helpers/api';
@@ -20,13 +13,16 @@ import { api } from '../../helpers/api';
 export default function Playlists() {
   const { userToken } = useSelector((state) => state.auth);
   const [artistArray, setArtistArray] = useState([]);
->>>>>>> Stashed changes
   useEffect(() => {
     artists();
   }, [])
 
-<<<<<<< Updated upstream
-=======
+  const config = {
+    headers: {
+      token: userToken,
+    },
+  };
+
   const artists = async () => {
     await api
       .get('artist/all', config)
@@ -39,7 +35,6 @@ export default function Playlists() {
       });
     
   };
->>>>>>> Stashed changes
   
   return (
     <Box p={3}>
