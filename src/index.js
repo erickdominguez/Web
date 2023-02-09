@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Root from './components/pages/Root';
 import ErrorPage from './components/pages/ErrorPage';
-import SongList from './UI/molecules/ElementList';
-import Playlists from './UI/organisms/Playlists';
+import SongList from './UI/atoms/ElementList';
+import Playlists from './UI/organisms/outlets/Playlists';
 import reportWebVitals from './reportWebVitals';
-import Albums from './UI/organisms/Albums';
+import Albums from './UI/organisms/outlets/Albums';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import LikedSongs from './UI/organisms/LikedSongs';
+import LikedSongs from './UI/organisms/outlets/LikedSongs';
 import { Provider } from 'react-redux';
 import store from './app/store';
-import AlbumsList from './UI/molecules/AlbumsList';
+import AlbumsList from './UI/atoms/AlbumsList';
 
 const darkTheme = createTheme({
   palette: {

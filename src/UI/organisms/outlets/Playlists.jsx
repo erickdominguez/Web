@@ -1,5 +1,5 @@
 import React from 'react';
-import PlaylistCard from '../molecules/ElementCard';
+import PlaylistCard from '../../atoms/ElementCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -8,7 +8,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { api } from '../../helpers/api';
+import { api } from '../../../helpers/api';
 
 export default function Playlists() {
   const { userToken } = useSelector((state) => state.auth);

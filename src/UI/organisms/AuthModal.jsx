@@ -6,8 +6,6 @@ import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 
 import LoginForm from '../molecules/auth/LoginForm';
-import TextField from '@mui/material/TextField';
-import RegisterForm from '../molecules/auth/ArtistRegisterForm';
 import RegisterTabs from '../molecules/auth/RegisterTabs';
 import { useTheme } from '@mui/material/styles';
 
