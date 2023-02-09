@@ -49,44 +49,47 @@ export default function SongList() {
       });
   };
 
-  const like = async (songId) =>{
+  const like = async (songId) => {
     const config = {
-      
       headers: {
         token: userToken,
-      }
+      },
     };
-    
-    console.log( userInfo._id + ' ' +
-       songId)
-    await api.put('users/like', {
-      id: userInfo._id,
-      song: songId
-    }, config)
-    .then((response)=>console.log(response))
-    .catch((error) => {
-      console.log(error.toJSON());
-    });
-  }
 
-  const unlike = async (songId) =>{
+    console.log(userInfo._id + ' ' + songId);
+    await api
+      .put(
+        'users/like',
+        {
+          id: userInfo._id,
+          song: songId,
+        },
+        config,
+      )
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.log(error.toJSON());
+      });
+  };
+
+  const unlike = async (songId) => {
     const config = {
       data: {
         id: userInfo._id,
-        song: songId
+        song: songId,
       },
       headers: {
         token: userToken,
       },
     };
-    console.log( userInfo._id + ' ' +
-       songId)
-    await api.delete('users/dislike', config)
-    .then((response)=>console.log(response))
-    .catch((error) => {
-      console.log(error.toJSON());
-    });
-  }
+    console.log(userInfo._id + ' ' + songId);
+    await api
+      .delete('users/dislike', config)
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.log(error.toJSON());
+      });
+  };
 
   return (
     <Box>
@@ -101,29 +104,30 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => {
-                console.log(song);
+                  console.log(song);
                   let songId = song?._id;
                   let title = song?.title;
                   let artist = element?.author?.name;
                   return (
-                    <ListItem
-                      disablePadding
-                    >
-                      <ListItemButton onClick={() => {
-                        dispatch(setSong({ songId, title, artist, id }));
-                      }}>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => {
+                          dispatch(setSong({ songId, title, artist, id }));
+                        }}
+                      >
                         <ListItemAvatar>
-                          <Avatar src={`http://localhost:4000/api/media?id=${id}`}/>
-                            
+                          <Avatar src={`http://localhost:4000/api/media?id=${id}`} />
                         </ListItemAvatar>
                         <ListItemText primary={song.title} secondary={artist} />
                         <ListItemText secondary={element.name} />
                         <ListItemText secondary='2:09' />
-                        
                       </ListItemButton>
-                      <FavoriteIcon onClick={()=>{like(songId)}}
-                          sx={song.like ? { color: theme.palette.primary.dark } : null}
-                        ></FavoriteIcon>
+                      <FavoriteIcon
+                        onClick={() => {
+                          like(songId);
+                        }}
+                        sx={song.like ? { color: theme.palette.primary.dark } : null}
+                      ></FavoriteIcon>
                     </ListItem>
                   );
                 })}

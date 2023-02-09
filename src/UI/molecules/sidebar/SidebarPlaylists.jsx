@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export default function SidebarPlaylists() {
   return (
@@ -12,8 +13,13 @@ export default function SidebarPlaylists() {
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>
-            <InboxIcon />
+            <AddBoxIcon />
           </ListItemIcon>
+          <ListItemText primary={'Create Playlist'} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton>
           <ListItemText primary={'Playlist 1'} />
         </ListItemButton>
       </ListItem>

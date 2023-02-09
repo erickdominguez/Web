@@ -1,5 +1,5 @@
 import React from 'react';
-import AlbumCard from '../molecules/ElementCard';
+import AlbumCard from './ElementCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { api } from '../../helpers/api';
@@ -16,7 +16,6 @@ export default function Playlists() {
   useEffect(() => {
     albums();
   }, []);
-
 
   const { userToken } = useSelector((state) => state.auth);
   const [albumData, setAlbumData] = useState([]);
@@ -47,7 +46,7 @@ export default function Playlists() {
             <CircularProgress />
           </Grid>
         ) : (
-          albumData.map((album) =>(
+          albumData.map((album) => (
             <Grid item xs={3} key={album?._id}>
               <Link to={`${album?._id}`} style={linkStyle}>
                 <AlbumCard

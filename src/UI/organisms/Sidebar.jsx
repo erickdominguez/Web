@@ -26,49 +26,60 @@ export default function Sidebar(props) {
   const { success } = useSelector((state) => state.auth);
   const linkStyle = {
     textDecoration: 'none',
-    color: 'aliceblue',
+    color: 'white',
   };
 
   const activeStyle = {
     textDecoration: 'none',
     color: theme.palette.primary.dark,
   };
+
+  const activeStyleIcon = {
+    color: theme.palette.primary.dark,
+  };
+
   const drawer = (
     <div>
       <List>
         <NavLink to='/' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Home'} />
-            </ListItemButton>
-          </ListItem>
+          {({ isActive }) => (
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon sx={isActive ? activeStyle : linkStyle}></HomeIcon>
+                </ListItemIcon>
+                <ListItemText primary={'Home'} />
+              </ListItemButton>
+            </ListItem>
+          )}
         </NavLink>
 
         {success ? (
           <NavLink to={`/liked`} style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <FavoriteIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Liked Songs'} />
-              </ListItemButton>
-            </ListItem>
+            {({ isActive }) => (
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <FavoriteIcon sx={isActive ? activeStyle : linkStyle} />
+                  </ListItemIcon>
+                  <ListItemText primary={'Liked Songs'} />
+                </ListItemButton>
+              </ListItem>
+            )}
           </NavLink>
         ) : null}
         {success ? (
           <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <AlbumIcon />
-                </ListItemIcon>
-                <ListItemText primary={'Albums'} />
-              </ListItemButton>
-            </ListItem>
+            {({ isActive }) => (
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AlbumIcon sx={isActive ? activeStyle : linkStyle} />
+                  </ListItemIcon>
+                  <ListItemText primary={'Albums'} />
+                </ListItemButton>
+              </ListItem>
+            )}
           </NavLink>
         ) : null}
       </List>
