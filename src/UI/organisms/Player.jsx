@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import React, {useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -68,7 +68,7 @@ export default function Player({
         flexShrink: { sm: 0 },
         zIndex: 0,
       }}
-      aria-label='mailbox folders'
+      aria-label='player container'
     >
       <audio
         src={activeSong}
@@ -78,11 +78,7 @@ export default function Player({
         onTimeUpdate={onTimeUpdate}
         onLoadedData={onLoadedData}
       />
-      <Box
-        sx={isActive ? stylePlaying : styleNotPlaying}
-        aria-label='mailbox folders'
-        component='nav'
-      >
+      <Box sx={isActive ? stylePlaying : styleNotPlaying} aria-label='player' component='nav'>
         {isActive ? (
           <Box sx={{ flexDirection: 'row', display: 'contents' }}>
             <CardMedia

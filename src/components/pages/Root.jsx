@@ -5,6 +5,7 @@ import MusicPlayer from '../../UI/organisms/MusicPlayer/index';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import NavigationBar from '../../UI/organisms/NavigationBar';
 
 export default function Root() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -25,6 +26,7 @@ export default function Root() {
       <Box sx={{ display: 'flex' }}>
         <Sidebar></Sidebar>
         <Box>
+          <NavigationBar></NavigationBar>
           <Outlet></Outlet>
         </Box>
       </Box>
