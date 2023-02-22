@@ -6,9 +6,22 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from 'react-router-dom';
 
 export default function SimpleAccordion() {
   const { userInfo } = useSelector((state) => state.auth);
+
+  const linkStyle = {
+    textDecoration: 'none',
+    color: 'white',
+  };
+
   function stringToColor(name) {
     let hash = 0;
     let i;
@@ -34,27 +47,32 @@ export default function SimpleAccordion() {
   }
 
   return (
-    <Accordion sx={{ width: '200px' }}>
+    <Accordion sx={{ width: '200px', position: 'absolute', right: '263px', top: '8px' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='user info' id='user-info'>
         <Avatar
           sx={{
-            backgroundColor: stringToColor('User Name'),
+            backgroundColor: stringToColor(userInfo?.name),
             width: 24,
             height: 24,
             marginX: '5px',
           }}
-        >
-          <Typography>{stringAvatar('User Name')}</Typography>
-        </Avatar>
+          alt={userInfo?.name}
+          src={`${process.env.REACT_APP_API_URL}/media?id=${userInfo?._id}`}
+        ></Avatar>
         <Typography noWrap sx={{ textOverflow: 'ellipsis', width: '130px' }}>
-          User Name
+          {userInfo?.name}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-          sit amet blandit leo lobortis eget.
-        </Typography>
+        <List>
+          <Link to='/profile' style={linkStyle}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary={'Profile'} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
       </AccordionDetails>
     </Accordion>
   );

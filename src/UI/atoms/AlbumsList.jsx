@@ -50,7 +50,7 @@ export default function Playlists() {
             <Grid item xs={3} key={album?._id}>
               <Link to={`${album?._id}`} style={linkStyle}>
                 <AlbumCard
-                  img={`http://localhost:4000/api/media?id=${album?._id}`}
+                  img={`${process.env.REACT_APP_API_URL}/media?id=${album?._id}`}
                   title={album?.name}
                   subtitle={album?.author?.name}
                 ></AlbumCard>

@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { loginUser } from '../../../features/auth/authActions';
+import { loginArtist } from '../../../features/auth/authActions';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 
@@ -40,13 +40,12 @@ export default function LoginForm(props) {
   const submitForm = (data) => {
     // transform email string to lowercase to avoid case sensitivity issues in login
     data.email = data.email.toLowerCase();
-    dispatch(loginUser(data));
+    dispatch(loginArtist(data));
   };
   const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Typography variant='h5'>To continue please sign in</Typography>
-      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginY={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginB={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -80,11 +79,14 @@ export default function LoginForm(props) {
       {loading ? (
         <CircularProgress />
       ) : (
-        <Button onClick={() => submitForm(loginFormData)} variant='contained'>
+        <Button
+          onClick={() => submitForm(loginFormData)}
+          variant='contained'
+          sx={{ marginTop: '18px' }}
+        >
           Log In
         </Button>
       )}
-      <Button onClick={props.handleRegisterForm}>Don't have an account? Register now</Button>
     </Box>
   );
 }

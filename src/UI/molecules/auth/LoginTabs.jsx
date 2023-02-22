@@ -4,9 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ArtistRegisterForm from './ArtistRegisterForm';
-import UserRegisterForm from './UserRegisterForm';
-import { useTheme } from '@mui/material/styles';
+import ArtistLoginForm from './ArtistLoginForm';
+import UserLoginForm from '../auth/UserLoginForm';
 import Button from '@mui/material/Button';
 
 function TabPanel(props) {
@@ -42,22 +41,21 @@ export default function CenteredTabs(props) {
         <Tab label='Usuarios' />
         <Tab label='Artistas' />
       </Tabs>
-
       <TabPanel value={value} index={0}>
-        <UserRegisterForm
+        <UserLoginForm
           handleClose={props.handleClose}
-          handleLoginForm={props.handleLoginForm}
-          registerError={props.registerError}
-        ></UserRegisterForm>
+          loginError={props.loginError}
+          handleRegisterForm={props.handleRegisterForm}
+        ></UserLoginForm>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ArtistRegisterForm
+        <ArtistLoginForm
           handleClose={props.handleClose}
-          handleLoginForm={props.handleLoginForm}
-          registerError={props.registerError}
-        ></ArtistRegisterForm>
+          loginError={props.loginError}
+          handleRegisterForm={props.handleRegisterForm}
+        ></ArtistLoginForm>
       </TabPanel>
-      <Button onClick={props.handleLoginForm}>Already have an account? Log in now</Button>
+      <Button onClick={props.handleRegisterForm}>Don't have an account? Register now</Button>
     </Box>
   );
 }

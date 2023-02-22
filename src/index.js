@@ -4,7 +4,8 @@ import './index.css';
 import Root from './components/pages/Root';
 import ErrorPage from './components/pages/ErrorPage';
 import SongList from './UI/atoms/ElementList';
-import Playlists from './UI/organisms/outlets/Playlists';
+import Home from './UI/organisms/outlets/Home';
+import Profile from './UI/organisms/outlets/Profile';
 import reportWebVitals from './reportWebVitals';
 import Albums from './UI/organisms/outlets/Albums';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Playlists />,
+        element: <Home />,
       },
       {
         path: 'songList/:playlistId',
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'liked',
         element: <LikedSongs />,
+      },
+      {
+        path: 'profile',
+        element: <Profile />,
       },
       {
         path: 'albums',

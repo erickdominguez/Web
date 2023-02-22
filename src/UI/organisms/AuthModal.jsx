@@ -1,11 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import LoginTabs from '../molecules/auth/LoginTabs';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-
-import LoginForm from '../molecules/auth/LoginForm';
 import RegisterTabs from '../molecules/auth/RegisterTabs';
 import { useTheme } from '@mui/material/styles';
 
@@ -43,11 +40,11 @@ export default function BasicModal(props) {
       >
         <Box sx={style}>
           {login ? (
-            <LoginForm
+            <LoginTabs
               handleClose={props.handleClose}
               loginError={loginError}
               handleRegisterForm={handleRegisterForm}
-            ></LoginForm>
+            ></LoginTabs>
           ) : (
             <RegisterTabs
               handleClose={props.handleClose}

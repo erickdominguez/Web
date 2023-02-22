@@ -116,7 +116,7 @@ export default function SongList() {
                         }}
                       >
                         <ListItemAvatar>
-                          <Avatar src={`http://localhost:4000/api/media?id=${id}`} />
+                          <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${id}`} />
                         </ListItemAvatar>
                         <ListItemText primary={song.title} secondary={artist} />
                         <ListItemText secondary={element.name} />

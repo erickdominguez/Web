@@ -20,12 +20,12 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setSong: (state, action) => {
-      state.activeSong = `http://localhost:4000/api/song/song?id=${action.payload.songId}`;
+      state.activeSong = `${process.env.REACT_APP_API_URL}/song/song?id=${action.payload.songId}`;
       state.songTitle = action.payload.title;
       state.songArtist = action.payload.artist;
       state.isActive = true;
       state.isPlaying = true;
-      state.songImg = `http://localhost:4000/api/media?id=${action.payload.id}`;
+      state.songImg = `${process.env.REACT_APP_API_URL}/media?id=${action.payload.id}`;
     },
 
     setActiveSong: (state, action) => {

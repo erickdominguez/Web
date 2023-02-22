@@ -12,9 +12,11 @@ import SidebarUser from '../molecules/sidebar/SidebarUser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
 import AlbumIcon from '@mui/icons-material/Album';
+import Search from '../atoms/Search';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 export default function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -23,6 +25,7 @@ export default function Sidebar(props) {
     setMobileOpen(!mobileOpen);
   };
   const theme = useTheme();
+  const { userInfo } = useSelector((state) => state.auth);
   const { success } = useSelector((state) => state.auth);
   const linkStyle = {
     textDecoration: 'none',
@@ -41,6 +44,7 @@ export default function Sidebar(props) {
   const drawer = (
     <div>
       <List>
+        <Search></Search>
         <NavLink to='/' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
           {({ isActive }) => (
             <ListItem disablePadding>
@@ -77,6 +81,20 @@ export default function Sidebar(props) {
                     <AlbumIcon sx={isActive ? activeStyle : linkStyle} />
                   </ListItemIcon>
                   <ListItemText primary={'Albums'} />
+                </ListItemButton>
+              </ListItem>
+            )}
+          </NavLink>
+        ) : null}
+        {success && userInfo?.role === 'ASSOCIATE' ? (
+          <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+            {({ isActive }) => (
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AddBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Create Playlist'} />
                 </ListItemButton>
               </ListItem>
             )}
