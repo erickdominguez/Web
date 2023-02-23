@@ -4,7 +4,6 @@ import LoginTabs from '../molecules/auth/LoginTabs';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import RegisterTabs from '../molecules/auth/RegisterTabs';
-import { useTheme } from '@mui/material/styles';
 
 const style = {
   position: 'absolute',
@@ -19,13 +18,8 @@ const style = {
 };
 
 export default function BasicModal(props) {
-  const theme = useTheme();
   //state for the forms of login or forms
   const [login, setLogin] = useState(true);
-  //state of errors
-  const [loginError, setLoginError] = useState();
-  const [registerError, setRegisterError] = useState();
-
   //functions for handling the switch between register and login forms
   const handleRegisterForm = () => setLogin(false);
   const handleLoginForm = () => setLogin(true);
@@ -42,14 +36,12 @@ export default function BasicModal(props) {
           {login ? (
             <LoginTabs
               handleClose={props.handleClose}
-              loginError={loginError}
               handleRegisterForm={handleRegisterForm}
             ></LoginTabs>
           ) : (
             <RegisterTabs
               handleClose={props.handleClose}
               handleLoginForm={handleLoginForm}
-              registerError={registerError}
             ></RegisterTabs>
           )}
         </Box>

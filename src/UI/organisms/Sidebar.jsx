@@ -37,10 +37,6 @@ export default function Sidebar(props) {
     color: theme.palette.primary.dark,
   };
 
-  const activeStyleIcon = {
-    color: theme.palette.primary.dark,
-  };
-
   const drawer = (
     <div>
       <List>

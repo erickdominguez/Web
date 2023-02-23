@@ -9,9 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
 export default function SimpleAccordion() {
@@ -40,10 +38,6 @@ export default function SimpleAccordion() {
     /* eslint-enable no-bitwise */
 
     return color;
-  }
-
-  function stringAvatar(name) {
-    return `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`;
   }
 
   return (

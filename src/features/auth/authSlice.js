@@ -9,7 +9,7 @@ const initialState = {
   success: false, // for monitoring the registration process.
 };
 
-const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
+// const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
 
 const authSlice = createSlice({
   name: 'auth',
@@ -37,7 +37,7 @@ const authSlice = createSlice({
     [loginUser.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.userInfo = payload.user;
+      state.userInfo = payload.user || payload.artist;
       state.userToken = payload.token;
     },
     [loginUser.rejected]: (state, { payload }) => {

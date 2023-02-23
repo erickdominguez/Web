@@ -2,12 +2,10 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
-import ImageIcon from '@mui/icons-material/Image';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import { api } from '../../helpers/api';
@@ -56,7 +54,6 @@ export default function SongList() {
       },
     };
 
-    console.log(userInfo._id + ' ' + songId);
     await api
       .put(
         'users/like',
@@ -72,24 +69,25 @@ export default function SongList() {
       });
   };
 
-  const unlike = async (songId) => {
-    const config = {
-      data: {
-        id: userInfo._id,
-        song: songId,
-      },
-      headers: {
-        token: userToken,
-      },
-    };
-    console.log(userInfo._id + ' ' + songId);
-    await api
-      .delete('users/dislike', config)
-      .then((response) => console.log(response))
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
-  };
+  // const unlike = async (songId) => {
+  //   const config = {
+  //     data: {
+  //       id: userInfo._id,
+  //       song: songId,
+  //     },
+  //     headers: {
+  //       token: userToken,
+  //     },
+  //   };
+
+  //   console.log(userInfo._id + ' ' + songId);
+  //   await api
+  //     .delete('users/dislike', config)
+  //     .then((response) => console.log(response))
+  //     .catch((error) => {
+  //       console.log(error.toJSON());
+  //     });
+  // };
 
   return (
     <Box>
