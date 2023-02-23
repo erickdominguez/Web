@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import DatePickerAtom from '../../atoms/DatePickerAtom';
-import MenuItem from '@mui/material/MenuItem';
 import { api } from '../../../helpers/api';
 import { useState } from 'react';
 

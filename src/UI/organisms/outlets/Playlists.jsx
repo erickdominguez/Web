@@ -2,10 +2,6 @@ import React from 'react';
 import PlaylistCard from '../../atoms/ElementCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { api } from '../../../helpers/api';
@@ -28,6 +24,7 @@ export default function Playlists() {
       .get('artist/all', config)
       .then((response) => {
         setArtistArray(response.data);
+        console.log(artistArray);
       })
       .catch((error) => {
         console.log(error.toJSON());
