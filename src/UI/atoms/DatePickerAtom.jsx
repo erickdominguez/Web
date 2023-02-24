@@ -18,7 +18,14 @@ export default function MaterialUIPickers(props) {
       month = '0' + month;
     }
 
-    let date = newValue.$y + '/' + month + '/' + newValue.$D;
+    let day;
+    if (newValue.$D >= 9) {
+      day = newValue.$D;
+    } else {
+      day = '0' + newValue.$D;
+    }
+
+    let date = newValue.$y + '/' + month + '/' + day;
     props.setFormData((prevState) => {
       return {
         ...prevState,
