@@ -42,7 +42,7 @@ export default function Playlists() {
     <Box sx={{ width: '100%' }}>
       <Grid container spacing={3} p={3}>
         {loading ? (
-          <Grid>
+          <Grid item xs={12}>
             <CircularProgress />
           </Grid>
         ) : (

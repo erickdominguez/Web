@@ -29,7 +29,7 @@ export default function Profile() {
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }} p={3}>
       <Avatar
         sx={{
           backgroundColor: stringToColor(userInfo?.name),
@@ -40,7 +40,7 @@ export default function Profile() {
         alt={userInfo?.name}
         src={`${process.env.REACT_APP_API_URL}/media?id=${userInfo?._id}`}
       ></Avatar>
-      <Typography>{userInfo?.name}</Typography>
+      <Typography variant='h3'>{userInfo?.name}</Typography>
       {userInfo?.role === 'CONSUMER' ? (
         <UserProfile></UserProfile>
       ) : (
