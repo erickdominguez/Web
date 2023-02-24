@@ -103,7 +103,7 @@ export default function RegisterForm(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <DatePickerAtom name='birth' setRegisterFormData={setRegisterFormData}></DatePickerAtom>
+          <DatePickerAtom name='birth' setFormData={setRegisterFormData}></DatePickerAtom>
         </Grid>
       </Grid>
       {props.registerError ? (

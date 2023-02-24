@@ -8,6 +8,8 @@ import Home from './UI/organisms/outlets/Home';
 import Profile from './UI/organisms/outlets/Profile';
 import reportWebVitals from './reportWebVitals';
 import Albums from './UI/organisms/outlets/Albums';
+import CreateAlbums from './UI/organisms/outlets/artist/CreateAlbums';
+import UploadSong from './UI/organisms/outlets/artist/UploadSong';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+      },
+      {
+        path: 'newAlbum',
+        element: <CreateAlbums />,
+      },
+      {
+        path: 'uploadSong',
+        element: <UploadSong />,
       },
       {
         path: 'albums',

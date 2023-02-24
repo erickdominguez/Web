@@ -12,6 +12,7 @@ import SidebarUser from '../molecules/sidebar/SidebarUser';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
 import AlbumIcon from '@mui/icons-material/Album';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Search from '../atoms/Search';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -83,14 +84,28 @@ export default function Sidebar(props) {
           </NavLink>
         ) : null}
         {success && userInfo?.role === 'ASSOCIATE' ? (
-          <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+          <NavLink to='/newAlbum' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             {({ isActive }) => (
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <AddBoxIcon />
+                    <AddBoxIcon sx={isActive ? activeStyle : linkStyle} />
                   </ListItemIcon>
-                  <ListItemText primary={'Create Playlist'} />
+                  <ListItemText primary={'Create Album'} />
+                </ListItemButton>
+              </ListItem>
+            )}
+          </NavLink>
+        ) : null}
+        {success && userInfo?.role === 'ASSOCIATE' ? (
+          <NavLink to='/uploadSong' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
+            {({ isActive }) => (
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <FileUploadIcon sx={isActive ? activeStyle : linkStyle} />
+                  </ListItemIcon>
+                  <ListItemText primary={'Upload Song'} />
                 </ListItemButton>
               </ListItem>
             )}

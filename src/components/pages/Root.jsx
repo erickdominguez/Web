@@ -15,12 +15,6 @@ export default function Root() {
     return Object.keys(objectName).length === 0;
   };
 
-  useEffect(() => {
-    if (isObjectEmpty(userInfo)) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       <Box sx={{ display: 'flex' }}>

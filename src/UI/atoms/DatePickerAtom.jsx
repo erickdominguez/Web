@@ -20,7 +20,7 @@ export default function MaterialUIPickers(props) {
 
     let date = newValue.$D + '/' + month + '/' + newValue.$y;
     console.log(date);
-    props.setRegisterFormData((prevState) => {
+    props.setFormData((prevState) => {
       return {
         ...prevState,
         birth: date,
