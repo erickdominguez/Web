@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/feed/*"
-  to = "http://3.88.22.25:4000/api/"
+  to = "http://3.88.22.25:4000/api"
   status = 200
   force = true
