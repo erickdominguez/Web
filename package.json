@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "env-cmd -f .env.dev react-scripts start",
+    "start:stag": "env-cmd -f .env.stag react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
     "build": "env-cmd -f .env.prod react-scripts build",
     "test": "react-scripts test",
