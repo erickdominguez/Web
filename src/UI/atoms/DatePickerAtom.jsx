@@ -18,12 +18,11 @@ export default function MaterialUIPickers(props) {
       month = '0' + month;
     }
 
-    let date = newValue.$D + '/' + month + '/' + newValue.$y;
-    console.log(date);
+    let date = newValue.$y + '/' + month + '/' + newValue.$D;
     props.setFormData((prevState) => {
       return {
         ...prevState,
-        birth: date,
+        [props.name]: date,
       };
     });
   };

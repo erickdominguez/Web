@@ -40,6 +40,7 @@ export default function SongList() {
       .get(`album`, config)
       .then((response) => {
         setElement(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {

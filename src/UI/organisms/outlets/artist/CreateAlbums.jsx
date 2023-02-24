@@ -6,25 +6,29 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import DatePickerAtom from '../../../atoms/DatePickerAtom';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useSelector } from 'react-redux';
+import { api } from '../../../../helpers/api';
+
 export default function CreateAlbums() {
+  const { userToken } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
   const gridItemStyle = { width: '100%' };
   const [filename, setFilename] = useState('');
-  const [data, setData] = useState({ name: '', date: '', type: 'ALBUM', img: '' });
+  const [file, setFile] = useState(null);
+  const [data, setData] = useState({ name: '', date: '', type: 'ALBUM' });
   const handleFileUpload = (e) => {
     if (!e.target.files) {
+      setFilename('No file uploaded');
       return;
     }
     const file = e.target.files[0];
     const { name } = file;
+    console.log(file);
     setFilename(name);
 
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      if (!evt?.target?.result) {
-        return;
-      }
-      const { result } = evt.target;
-    };
+    setFile(e.target.files[0]);
   };
   const formPreventDefault = (e) => {
     e.preventDefault();
@@ -42,11 +46,29 @@ export default function CreateAlbums() {
       };
     });
   };
-  const submitForm = (data) => {
-    // dispatch(loginUser(data));
+  const submitForm = async (data) => {
+    const formData = new FormData();
+
+    formData.append('img', file);
+
+    formData.append('name', data.name);
+    formData.append('type', data.type);
+    formData.append('date', data.date);
+    try {
+      await api
+        .post(`album?key=${userInfo?._id}`, formData, {
+          headers: { token: userToken },
+        })
+        .then((response) => {
+          console.log(response);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Box p={3}>
+      <Typography variant='h2'>Create new album</Typography>
       <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginB={2}>
         <Grid item xs={12}>
           <TextField
@@ -70,11 +92,15 @@ export default function CreateAlbums() {
             sx={{ marginRight: '1rem' }}
           >
             Select cover image
-            <input type='file' accept='.png' hidden onChange={handleFileUpload} />
+            <input type='file' accept='.jpeg' hidden onChange={handleFileUpload} />
           </Button>
           <Box>{filename}</Box>
+          <img src={file}></img>
         </Grid>
       </Grid>
+      <Button onClick={() => submitForm(data)} variant='contained'>
+        Create
+      </Button>
     </Box>
   );
 }
