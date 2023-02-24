@@ -19,7 +19,7 @@ export default function MaterialUIPickers(props) {
     }
 
     let day;
-    if (newValue.$D >= 9) {
+    if (newValue.$D >= 10) {
       day = newValue.$D;
     } else {
       day = '0' + newValue.$D;
