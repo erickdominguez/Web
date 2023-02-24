@@ -27,7 +27,7 @@ export default function Sidebar(props) {
   };
   const theme = useTheme();
   const { userInfo } = useSelector((state) => state.auth);
-  const { success } = useSelector((state) => state.auth);
+  const { userToken } = useSelector((state) => state.auth);
   const linkStyle = {
     textDecoration: 'none',
     color: 'white',
@@ -55,7 +55,7 @@ export default function Sidebar(props) {
           )}
         </NavLink>
 
-        {success ? (
+        {userToken ? (
           <NavLink to={`/liked`} style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             {({ isActive }) => (
               <ListItem disablePadding>
@@ -69,7 +69,7 @@ export default function Sidebar(props) {
             )}
           </NavLink>
         ) : null}
-        {success ? (
+        {userToken ? (
           <NavLink to='/albums' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             {({ isActive }) => (
               <ListItem disablePadding>
@@ -83,7 +83,7 @@ export default function Sidebar(props) {
             )}
           </NavLink>
         ) : null}
-        {success && userInfo?.role === 'ASSOCIATE' ? (
+        {userToken && userInfo?.role === 'ASSOCIATE' ? (
           <NavLink to='/newAlbum' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             {({ isActive }) => (
               <ListItem disablePadding>
@@ -97,7 +97,7 @@ export default function Sidebar(props) {
             )}
           </NavLink>
         ) : null}
-        {success && userInfo?.role === 'ASSOCIATE' ? (
+        {userToken && userInfo?.role === 'ASSOCIATE' ? (
           <NavLink to='/uploadSong' style={({ isActive }) => (isActive ? activeStyle : linkStyle)}>
             {({ isActive }) => (
               <ListItem disablePadding>
@@ -113,7 +113,7 @@ export default function Sidebar(props) {
         ) : null}
       </List>
       <Divider />
-      {success ? <SidebarPlaylists /> : <SidebarUser />}
+      {userToken ? <SidebarPlaylists /> : <SidebarUser />}
     </div>
   );
 

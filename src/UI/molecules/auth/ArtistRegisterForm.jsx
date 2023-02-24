@@ -9,18 +9,12 @@ import DatePickerAtom from '../../atoms/DatePickerAtom';
 import MenuItem from '@mui/material/MenuItem';
 import { api } from '../../../helpers/api';
 import { useState } from 'react';
+import { registerArtist } from '../../../features/auth/authActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function RegisterForm(props) {
-  // const submitForm = (data) => {
-  //   // check if passwords match
-  //   if (data.password !== data.confirmPassword) {
-  //     alert('Password mismatch');
-  //   }
-  //   // transform email string to lowercase to avoid case sensitivity issues in login
-  //   data.email = data.email.toLowerCase();
-  //   dispatch(registerUser(data));
-  // };
-  //states for register data
+  const { loading, error, success } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [registerFormData, setRegisterFormData] = useState({
     name: '',
     email: '',
@@ -31,6 +25,7 @@ export default function RegisterForm(props) {
     role: 'CONSUMER',
     status: 'PENDING',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
   //handle changes for the forms
 
   const handleRegisterChange = (event) => {
@@ -56,6 +51,17 @@ export default function RegisterForm(props) {
         props.setRegisterError(true);
       });
   };
+
+  const submitForm = (data) => {
+    // transform email string to lowercase to avoid case sensitivity issues in login
+    data.email = data.email.toLowerCase();
+    if (data.password !== confirmPassword) {
+      console.log(data);
+    } else {
+      dispatch(registerArtist(data));
+    }
+  };
+
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
   const gender = [
@@ -108,6 +114,7 @@ export default function RegisterForm(props) {
             onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
+            type='password'
           />
         </Grid>
         <Grid item xs={6}>
@@ -115,9 +122,12 @@ export default function RegisterForm(props) {
             id='outlined-basic'
             label='Confirm password'
             variant='outlined'
-            onChange={handleRegisterChange}
+            onChange={(event) => {
+              setConfirmPassword(event.target.value);
+            }}
             sx={gridItemStyle}
             size='small'
+            type='password'
           />
         </Grid>
         <Grid item xs={12}>
@@ -144,22 +154,14 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            select
             id='outlined-basic'
-            label='Gender'
-            value={registerFormData.gender}
+            label='Genre'
             variant='outlined'
-            name='gender'
+            name='genre'
             onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
-          >
-            {gender.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          ></TextField>
         </Grid>
       </Grid>
       {props.registerError ? (
@@ -167,7 +169,7 @@ export default function RegisterForm(props) {
           There is already an account with that email
         </Typography>
       ) : null}
-      <Button onClick={handleRegisterData} variant='contained'>
+      <Button onClick={() => submitForm(registerFormData)} variant='contained'>
         Register
       </Button>
     </Box>

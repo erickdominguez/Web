@@ -80,7 +80,7 @@ export default function UploadSong() {
   return (
     <Box p={3}>
       <Typography variant='h2'>Upload a new song</Typography>
-      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginB={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2}>
         <Grid item xs={12}>
           <TextField
             select

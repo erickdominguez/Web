@@ -69,7 +69,7 @@ export default function CreateAlbums() {
   return (
     <Box p={3}>
       <Typography variant='h2'>Create new album</Typography>
-      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginB={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'

@@ -11,7 +11,7 @@ import Alert from '@mui/material/Alert';
 
 export default function LoginForm(props) {
   const gridItemStyle = { width: '100%' };
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const { loading, error, success, userToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [loginFormData, setLoginFormData] = useState({
@@ -43,7 +43,7 @@ export default function LoginForm(props) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginB={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -68,7 +68,7 @@ export default function LoginForm(props) {
           />
         </Grid>
       </Grid>
-      {success ? props.handleClose() : null}
+      {userToken ? props.handleClose() : null}
       {error ? (
         <Alert severity='error' mb={2}>
           Invalid credentials

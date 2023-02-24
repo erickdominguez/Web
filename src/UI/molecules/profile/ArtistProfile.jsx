@@ -46,7 +46,7 @@ export default function ArtistProfile() {
         ) : (
           albumsList.map((album) => (
             <Grid item xs={3} key={album?._id}>
-              <Link to={`${album?._id}`} style={linkStyle}>
+              <Link to={`/albums/${album?._id}`} style={linkStyle}>
                 <AlbumCard
                   img={`${process.env.REACT_APP_API_URL}/media?id=${album?._id}`}
                   title={album?.name}

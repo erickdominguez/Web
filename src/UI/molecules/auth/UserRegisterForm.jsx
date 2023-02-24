@@ -5,20 +5,14 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePickerAtom from '../../atoms/DatePickerAtom';
-import { api } from '../../../helpers/api';
+import { registerUser } from '../../../features/auth/authActions';
 import { useState } from 'react';
 
 export default function RegisterForm(props) {
-  // const submitForm = (data) => {
-  //   // check if passwords match
-  //   if (data.password !== data.confirmPassword) {
-  //     alert('Password mismatch');
-  //   }
-  //   // transform email string to lowercase to avoid case sensitivity issues in login
-  //   data.email = data.email.toLowerCase();
-  //   dispatch(registerUser(data));
-  // };
+  const { loading, error, success } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   //states for register data
   const [registerFormData, setRegisterFormData] = useState({
     name: '',
@@ -28,6 +22,7 @@ export default function RegisterForm(props) {
     role: 'CONSUMER',
     status: 'PENDING',
   });
+  const [confirmPassword, setConfirmPassword] = useState('');
   //handle changes for the forms
 
   const handleRegisterChange = (event) => {
@@ -40,25 +35,29 @@ export default function RegisterForm(props) {
     });
   };
 
-  const handleRegisterData = async () => {
-    await api
-      .post('auth/register', registerFormData)
-      .then((response) => {
-        if (response.status === 200) {
-          props.setUser(response.data);
-          props.handleClose();
-        }
-      })
-      .catch((error) => {
-        props.setRegisterError(true);
-      });
+  const formPreventDefault = (e) => {
+    e.preventDefault();
+    if (e.key === 'Enter') {
+      submitForm(registerFormData);
+    }
   };
+
+  const submitForm = (data) => {
+    // transform email string to lowercase to avoid case sensitivity issues in login
+    data.email = data.email.toLowerCase();
+    if (data.password !== confirmPassword) {
+      console.log(data);
+    } else {
+      dispatch(registerUser(data));
+    }
+  };
+
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2} marginBottom={2}>
+      <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginBottom={2}>
         <Grid item xs={12}>
           <TextField
             id='outlined-basic'
@@ -90,6 +89,7 @@ export default function RegisterForm(props) {
             onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
+            type='password'
           />
         </Grid>
         <Grid item xs={6}>
@@ -97,9 +97,12 @@ export default function RegisterForm(props) {
             id='outlined-basic'
             label='Confirm password'
             variant='outlined'
-            onChange={handleRegisterChange}
+            onChange={(event) => {
+              setConfirmPassword(event.target.value);
+            }}
             sx={gridItemStyle}
             size='small'
+            type='password'
           />
         </Grid>
         <Grid item xs={12}>
@@ -111,7 +114,7 @@ export default function RegisterForm(props) {
           There is already an account with that email
         </Typography>
       ) : null}
-      <Button onClick={handleRegisterData} variant='contained'>
+      <Button onClick={() => submitForm(registerFormData)} variant='contained'>
         Register
       </Button>
     </Box>
