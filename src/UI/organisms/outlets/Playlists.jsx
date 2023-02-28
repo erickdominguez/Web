@@ -24,7 +24,6 @@ export default function Playlists() {
       .get('artist/all', config)
       .then((response) => {
         setArtistArray(response.data);
-        console.log(artistArray);
       })
       .catch((error) => {
         console.log(error.toJSON());

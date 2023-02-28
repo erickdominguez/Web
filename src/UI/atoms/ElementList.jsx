@@ -40,7 +40,7 @@ export default function SongList() {
       .get(`album`, config)
       .then((response) => {
         setElement(response.data);
-        console.log(response.data);
+
         setLoading(false);
       })
       .catch((error) => {
@@ -64,7 +64,7 @@ export default function SongList() {
         },
         config,
       )
-      .then((response) => console.log(response))
+      .then((response) => {})
       .catch((error) => {
         console.log(error.toJSON());
       });
@@ -103,7 +103,6 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => {
-                  console.log(song);
                   let songId = song?._id;
                   let title = song?.title;
                   let artist = element?.author?.name;
