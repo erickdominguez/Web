@@ -54,7 +54,7 @@ export default function UploadSong() {
     }
     const file = e.target.files[0];
     const { name } = file;
-    console.log(file);
+
     setFilename(name);
 
     setFile(e.target.files[0]);

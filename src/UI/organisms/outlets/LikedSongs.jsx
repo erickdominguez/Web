@@ -130,7 +130,6 @@ export default function LikedSongs() {
                     </ListItemButton>
                     <FavoriteIcon
                       sx={{ color: theme.palette.primary.dark }}
-                      onMouseEnter={() => console.log('siii')}
                       onClick={() => unlike(song._id)}
                     ></FavoriteIcon>
                   </ListItem>
