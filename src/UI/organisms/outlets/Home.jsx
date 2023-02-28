@@ -72,11 +72,16 @@ export default function Playlists() {
                 borderRadius: '50%',
               }}
             />
-            <ImageListItemBar title={item.name} position='below' />
+            <ImageListItemBar
+              noWrap
+              sx={{ textOverflow: 'ellipsis', width: '130px' }}
+              title={item.name}
+              position='below'
+            />
           </ImageListItem>
         ))}
       </ImageList>
-      <Grid container spacing={3} pr={3}>
+      <Grid container spacing={3}>
         {loading ? (
           <Grid>
             <CircularProgress />

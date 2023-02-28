@@ -20,7 +20,7 @@ export default function RegisterForm(props) {
     email: '',
     password: '',
     country: '',
-    gender: '',
+    genre: '',
     role: 'CONSUMER',
     status: 'PENDING',
   });
@@ -84,22 +84,83 @@ export default function RegisterForm(props) {
 
   const gridItemStyle = { width: '100%' };
   const theme = useTheme();
-  const gender = [
-    {
-      value: 'FEMALE',
-      label: 'Female',
-    },
-    {
-      value: 'MALE',
-      label: 'Male',
-    },
-  ];
+
   const country = [
     {
       value: 'MEXICO',
       label: 'Mexico',
     },
+    { value: 'USA', label: 'USA' },
+    { value: 'ALEMANIA', label: 'Alemania' },
   ];
+
+  const genre = [
+    {
+      value: 'INDIE',
+      label: 'Indie',
+    },
+    {
+      value: 'POP',
+      label: 'Pop',
+    },
+    {
+      value: 'ROCK',
+      label: 'Rock',
+    },
+    {
+      value: 'SALSA',
+      label: 'Salsa',
+    },
+    {
+      value: 'TRAP',
+      label: 'Trap',
+    },
+    {
+      value: 'HIP_HOP',
+      label: 'Hip Hop',
+    },
+    {
+      value: 'JAZZ',
+      label: 'Jazz',
+    },
+    {
+      value: 'ALTERNATIVE',
+      label: 'Alternative',
+    },
+    {
+      value: 'HEAVY_METAL',
+      label: 'Heavy Metal',
+    },
+    {
+      value: "70's",
+      label: '70s',
+    },
+    {
+      value: "80's",
+      label: '80s',
+    },
+    {
+      value: 'EDM',
+      label: 'EDM',
+    },
+    {
+      value: 'COUNTRY',
+      label: 'Country',
+    },
+    {
+      value: 'ELECTRO',
+      label: 'Electro',
+    },
+    {
+      value: "60's",
+      label: '60s',
+    },
+    {
+      value: 'CUMBIA',
+      label: 'Cumbia',
+    },
+  ];
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} marginBottom={2}>
@@ -171,14 +232,22 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            select
             id='outlined-basic'
             label='Genre'
             variant='outlined'
             name='genre'
+            value={registerFormData.genre}
             onChange={handleRegisterChange}
             sx={gridItemStyle}
             size='small'
-          ></TextField>
+          >
+            {genre.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
       </Grid>
       {props.registerError ? (

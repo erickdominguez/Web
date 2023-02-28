@@ -18,9 +18,9 @@ export default function Root() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       <Alert></Alert>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', width: '100vw', flexGrow: 1 }}>
         <Sidebar></Sidebar>
-        <Box>
+        <Box sx={{ display: 'flex', width: '100%', flexGrow: 1 }}>
           <NavigationBar></NavigationBar>
           <Outlet></Outlet>
         </Box>
