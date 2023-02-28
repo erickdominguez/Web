@@ -28,13 +28,13 @@ export default function RegisterForm(props) {
   //handle changes for the forms
   useEffect(() => {
     if (success) {
+      setTimeout(() => {
+        dispatch(setSuccess(false));
+      }, 1000);
       dispatch(setShow(true));
       dispatch(setMessage('User Created'));
       dispatch(setType('success'));
       props.handleLoginForm();
-      setTimeout(() => {
-        dispatch(setSuccess(false));
-      }, 1000);
     }
   }, [success]);
 
