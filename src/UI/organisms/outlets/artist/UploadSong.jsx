@@ -9,9 +9,15 @@ import { api } from '../../../../helpers/api';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
+import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
+import { useDispatch } from 'react-redux';
+import { useAlert } from '../../../../hooks/useAlert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function UploadSong() {
+  const dispatch = useDispatch();
   const { userInfo, userToken } = useSelector((state) => state.auth);
+  const { show } = useSelector((state) => state.alert);
   const gridItemStyle = { width: '100%' };
   const [loading, setLoading] = useState(true);
   const [albumsList, setAlbumsList] = useState([]);
@@ -65,17 +71,26 @@ export default function UploadSong() {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('title', title);
-    try {
-      await api
-        .post(`song?id=${album}`, formData, {
-          headers: { token: userToken },
-        })
-        .then((response) => {
-          console.log(response);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    setLoading(true);
+    await api
+      .post(`song?id=${album}`, formData, {
+        headers: { token: userToken },
+      })
+      .then((response) => {
+        dispatch(setShow(true));
+        dispatch(setMessage('Song Uploaded'));
+        dispatch(setType('success'));
+        return response;
+      })
+      .catch(function (error) {
+        dispatch(setShow(true));
+        dispatch(setMessage('An error ocurred, invalid data'));
+        dispatch(setType('error'));
+        return error.response.stauts;
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <Box p={3}>
@@ -128,9 +143,13 @@ export default function UploadSong() {
           <Box>{filename}</Box>
         </Grid>
       </Grid>
-      <Button onClick={() => submitForm()} variant='contained' sx={{ marginTop: '18px' }}>
-        Upload
-      </Button>
+      {loading ? (
+        <CircularProgress></CircularProgress>
+      ) : (
+        <Button onClick={() => submitForm()} variant='contained' sx={{ marginTop: '18px' }}>
+          Upload
+        </Button>
+      )}
     </Box>
   );
 }

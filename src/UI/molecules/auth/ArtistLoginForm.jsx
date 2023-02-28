@@ -4,16 +4,25 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginArtist } from '../../../features/auth/authActions';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-
+import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
+import { setError } from '../../../features/auth/authSlice';
 export default function LoginForm(props) {
   const gridItemStyle = { width: '100%' };
   const { loading, error, success, userToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (error) {
+      dispatch(setShow(true));
+      dispatch(setMessage('Invalid credentials'));
+      dispatch(setType('error'));
+    }
+    setTimeout(() => {
+      dispatch(setError(null));
+    }, 1000);
+  }, [error]);
   const [loginFormData, setLoginFormData] = useState({
     email: '',
     password: '',
@@ -69,11 +78,7 @@ export default function LoginForm(props) {
         </Grid>
       </Grid>
       {userToken ? props.handleClose() : null}
-      {error ? (
-        <Alert severity='error' mb={2}>
-          Invalid credentials
-        </Alert>
-      ) : null}
+
       {loading ? (
         <CircularProgress />
       ) : (

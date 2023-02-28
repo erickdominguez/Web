@@ -5,13 +5,13 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import DatePickerAtom from '../../atoms/DatePickerAtom';
 import MenuItem from '@mui/material/MenuItem';
 import { api } from '../../../helpers/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { registerArtist } from '../../../features/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
+import { setError } from '../../../features/auth/authSlice';
 export default function RegisterForm(props) {
   const { loading, error, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ export default function RegisterForm(props) {
     name: '',
     email: '',
     password: '',
-    birth: '',
     country: '',
     gender: '',
     role: 'CONSUMER',
@@ -27,6 +26,25 @@ export default function RegisterForm(props) {
   });
   const [confirmPassword, setConfirmPassword] = useState('');
   //handle changes for the forms
+  useEffect(() => {
+    if (success) {
+      dispatch(setShow(true));
+      dispatch(setMessage('User Created'));
+      dispatch(setType('success'));
+      props.handleLoginForm();
+    }
+  }, [success]);
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setShow(true));
+      dispatch(setMessage('An error ocurred, fill all requiered fields'));
+      dispatch(setType('error'));
+    }
+    setTimeout(() => {
+      dispatch(setError(null));
+    }, 1000);
+  }, [error]);
 
   const handleRegisterChange = (event) => {
     const { name, value } = event.target;
@@ -56,7 +74,9 @@ export default function RegisterForm(props) {
     // transform email string to lowercase to avoid case sensitivity issues in login
     data.email = data.email.toLowerCase();
     if (data.password !== confirmPassword) {
-      console.log(data);
+      dispatch(setShow(true));
+      dispatch(setMessage("Passwords don't match"));
+      dispatch(setType('warning'));
     } else {
       dispatch(registerArtist(data));
     }
@@ -129,9 +149,6 @@ export default function RegisterForm(props) {
             size='small'
             type='password'
           />
-        </Grid>
-        <Grid item xs={12}>
-          <DatePickerAtom name='birth' setFormData={setRegisterFormData}></DatePickerAtom>
         </Grid>
         <Grid item xs={6}>
           <TextField

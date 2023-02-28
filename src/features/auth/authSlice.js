@@ -14,7 +14,11 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: {
     // register user
     [registerUser.pending]: (state) => {
@@ -46,5 +50,5 @@ const authSlice = createSlice({
     },
   },
 });
-
+export const { setError } = authSlice.actions;
 export default authSlice.reducer;

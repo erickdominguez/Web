@@ -11,8 +11,11 @@ export const loginUser = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       };
+
       const response = await api.get(`auth/login?email=${email}&password=${password}`, config);
+
       localStorage.setItem('userToken', response.data.token);
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -10,11 +10,14 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector } from 'react-redux';
 import { api } from '../../../../helpers/api';
+import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
+import { useDispatch } from 'react-redux';
 
 export default function CreateAlbums() {
   const { userToken } = useSelector((state) => state.auth);
   const { userInfo } = useSelector((state) => state.auth);
   const gridItemStyle = { width: '100%' };
+  const dispatch = useDispatch();
   const [filename, setFilename] = useState('');
   const [file, setFile] = useState(null);
   const [data, setData] = useState({ name: '', date: '', type: 'ALBUM' });
@@ -25,7 +28,6 @@ export default function CreateAlbums() {
     }
     const file = e.target.files[0];
     const { name } = file;
-    console.log(file);
     setFilename(name);
 
     setFile(e.target.files[0]);
@@ -46,26 +48,33 @@ export default function CreateAlbums() {
       };
     });
   };
+
   const submitForm = async (data) => {
     const formData = new FormData();
 
     formData.append('img', file);
-
     formData.append('name', data.name);
     formData.append('type', data.type);
     formData.append('date', data.date);
-    try {
-      await api
-        .post(`album?key=${userInfo?._id}`, formData, {
-          headers: { token: userToken },
-        })
-        .then((response) => {
-          console.log(response);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+
+    await api
+      .post(`album?key=${userInfo?._id}`, formData, {
+        headers: { token: userToken },
+      })
+      .then((data) => {
+        dispatch(setShow(true));
+        dispatch(setMessage('Album Created'));
+        dispatch(setType('success'));
+        return data;
+      })
+      .catch(function (error) {
+        dispatch(setShow(true));
+        dispatch(setMessage('An error ocurred, invalid data'));
+        dispatch(setType('error'));
+        return error.response.stauts;
+      });
   };
+
   return (
     <Box p={3}>
       <Typography variant='h2'>Create new album</Typography>
@@ -82,7 +91,7 @@ export default function CreateAlbums() {
           />
         </Grid>
         <Grid item xs={12}>
-          <DatePickerAtom name='date' setFormData={setData}></DatePickerAtom>
+          <DatePickerAtom label='Date' name='date' setFormData={setData}></DatePickerAtom>
         </Grid>
         <Grid item xs={12}>
           <Button

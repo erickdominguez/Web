@@ -30,7 +30,7 @@ export default function MaterialUIPickers(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker
-        label='Date'
+        label={props.label}
         inputFormat='DD/MM/YYYY'
         value={value}
         name={props.name}
