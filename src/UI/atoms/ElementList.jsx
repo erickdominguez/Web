@@ -91,15 +91,15 @@ export default function SongList() {
   // };
 
   return (
-    <Box>
-      <Grid container spacing={3} p={3}>
+    <Box sx={{ width: '100%' }}>
+      <Grid container spacing={3} p={3} sx={{ width: '100%', flexGrow: 1 }}>
         <Grid item xs={12}>
           <Box>
             <Typography variant='h2'>{element.name}</Typography>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <List>
+          <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {loading
               ? null
               : element.songs.map((song) => {
@@ -108,7 +108,7 @@ export default function SongList() {
                   let title = song?.title;
                   let artist = element?.author?.name;
                   return (
-                    <ListItem disablePadding>
+                    <ListItem>
                       <ListItemButton
                         onClick={() => {
                           dispatch(setSong({ songId, title, artist, id }));
@@ -117,7 +117,11 @@ export default function SongList() {
                         <ListItemAvatar>
                           <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${id}`} />
                         </ListItemAvatar>
-                        <ListItemText primary={song.title} secondary={artist} />
+                        <ListItemText
+                          sx={{ width: '80px' }}
+                          primary={song.title}
+                          secondary={artist}
+                        />
                         <ListItemText secondary={element.name} />
                         <ListItemText secondary='2:09' />
                       </ListItemButton>

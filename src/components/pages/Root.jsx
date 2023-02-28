@@ -4,7 +4,7 @@ import Sidebar from '../../UI/organisms/Sidebar';
 import MusicPlayer from '../../UI/organisms/MusicPlayer/index';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import Alert from '../../UI/atoms/Alert';
 import NavigationBar from '../../UI/organisms/NavigationBar';
 
 export default function Root() {
@@ -17,9 +17,10 @@ export default function Root() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-      <Box sx={{ display: 'flex' }}>
+      <Alert></Alert>
+      <Box sx={{ display: 'flex', width: '100vw', flexGrow: 1 }}>
         <Sidebar></Sidebar>
-        <Box>
+        <Box sx={{ display: 'flex', width: '100%', flexGrow: 1 }}>
           <NavigationBar></NavigationBar>
           <Outlet></Outlet>
         </Box>

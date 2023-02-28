@@ -3,16 +3,37 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePickerAtom from '../../atoms/DatePickerAtom';
 import { registerUser } from '../../../features/auth/authActions';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
+import { setError } from '../../../features/auth/authSlice';
 export default function RegisterForm(props) {
   const { loading, error, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (success) {
+      dispatch(setShow(true));
+      dispatch(setMessage('User Created'));
+      dispatch(setType('success'));
+      props.handleLoginForm();
+    }
+  }, [success]);
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setShow(true));
+      dispatch(setMessage('An error ocurred, fill all required fields'));
+      dispatch(setType('error'));
+    }
+    setTimeout(() => {
+      dispatch(setError(null));
+    }, 1000);
+  }, [error]);
+
   //states for register data
   const [registerFormData, setRegisterFormData] = useState({
     name: '',
@@ -46,7 +67,9 @@ export default function RegisterForm(props) {
     // transform email string to lowercase to avoid case sensitivity issues in login
     data.email = data.email.toLowerCase();
     if (data.password !== confirmPassword) {
-      console.log(data);
+      dispatch(setShow(true));
+      dispatch(setMessage("Passwords don't match"));
+      dispatch(setType('warning'));
     } else {
       dispatch(registerUser(data));
     }
@@ -60,6 +83,7 @@ export default function RegisterForm(props) {
       <Grid component='form' onKeyUp={formPreventDefault} container spacing={2} marginBottom={2}>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Name'
             variant='outlined'
@@ -71,6 +95,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Email'
             variant='outlined'
@@ -82,6 +107,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             id='outlined-basic'
             label='Password'
             variant='outlined'
@@ -94,6 +120,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             id='outlined-basic'
             label='Confirm password'
             variant='outlined'
@@ -106,14 +133,13 @@ export default function RegisterForm(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <DatePickerAtom name='birth' setFormData={setRegisterFormData}></DatePickerAtom>
+          <DatePickerAtom
+            label='Birth date'
+            name='birth'
+            setFormData={setRegisterFormData}
+          ></DatePickerAtom>
         </Grid>
       </Grid>
-      {props.registerError ? (
-        <Typography color={theme.palette.error.main} mb={2}>
-          There is already an account with that email
-        </Typography>
-      ) : null}
       <Button onClick={() => submitForm(registerFormData)} variant='contained'>
         Register
       </Button>

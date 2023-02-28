@@ -34,8 +34,8 @@ export default function CenteredTabs(props) {
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab label='Usuarios' />
-        <Tab label='Artistas' />
+        <Tab label='Users' />
+        <Tab label='Artists' />
       </Tabs>
       <TabPanel value={value} index={0}>
         <UserLoginForm

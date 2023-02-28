@@ -11,10 +11,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/auth/authSlice';
 export default function SimpleAccordion() {
   const { userInfo } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
   const linkStyle = {
     textDecoration: 'none',
     color: 'white',
@@ -66,6 +67,15 @@ export default function SimpleAccordion() {
               </ListItemButton>
             </ListItem>
           </Link>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                dispatch(logout());
+              }}
+            >
+              <ListItemText primary={'Sign Out'} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </AccordionDetails>
     </Accordion>
