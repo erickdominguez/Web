@@ -97,18 +97,12 @@ export default function Player({
                 </Typography>
               </Box>
               <Box>
-                <IconButton aria-label='previous'>
-                  {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-                </IconButton>
                 <IconButton aria-label='play/pause' onClick={handlePlayPause}>
                   {isPlaying ? (
                     <PauseIcon sx={{ height: 38, width: 38 }} />
                   ) : (
                     <PlayArrowIcon sx={{ height: 38, width: 38 }} />
                   )}
-                </IconButton>
-                <IconButton aria-label='next'>
-                  {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
                 </IconButton>
               </Box>
             </Box>

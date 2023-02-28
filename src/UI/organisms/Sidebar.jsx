@@ -113,7 +113,7 @@ export default function Sidebar(props) {
         ) : null}
       </List>
       <Divider />
-      {userToken ? <SidebarPlaylists /> : <SidebarUser />}
+      {userToken ? null : <SidebarUser />}
     </div>
   );
 

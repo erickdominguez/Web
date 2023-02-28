@@ -123,14 +123,7 @@ export default function SongList() {
                           secondary={artist}
                         />
                         <ListItemText secondary={element.name} />
-                        <ListItemText secondary='2:09' />
                       </ListItemButton>
-                      <FavoriteIcon
-                        onClick={() => {
-                          like(songId);
-                        }}
-                        sx={song.like ? { color: theme.palette.primary.dark } : null}
-                      ></FavoriteIcon>
                     </ListItem>
                   );
                 })}
