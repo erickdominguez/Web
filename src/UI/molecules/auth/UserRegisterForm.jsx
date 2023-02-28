@@ -9,7 +9,7 @@ import DatePickerAtom from '../../atoms/DatePickerAtom';
 import { registerUser } from '../../../features/auth/authActions';
 import { useState, useEffect } from 'react';
 import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
-import { setError } from '../../../features/auth/authSlice';
+import { setError, setSuccess } from '../../../features/auth/authSlice';
 export default function RegisterForm(props) {
   const { loading, error, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -20,9 +20,11 @@ export default function RegisterForm(props) {
       dispatch(setMessage('User Created'));
       dispatch(setType('success'));
       props.handleLoginForm();
+      setTimeout(() => {
+        dispatch(setSuccess(false));
+      }, 1000);
     }
   }, [success]);
-
   useEffect(() => {
     if (error) {
       dispatch(setShow(true));
