@@ -22,7 +22,7 @@ export default function RegisterForm(props) {
       dispatch(setShow(true));
       dispatch(setMessage('User Created'));
       dispatch(setType('success'));
-      props.handleLoginForm();
+      props.handleSwitch();
     }
   }, [success]);
   useEffect(() => {

@@ -55,6 +55,7 @@ export default function LoginForm(props) {
       <Grid component='form' onKeyUp={formPreventDefault} container spacing={2}>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Email'
             variant='outlined'
@@ -66,6 +67,7 @@ export default function LoginForm(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Password'
             variant='outlined'

@@ -34,7 +34,7 @@ export default function RegisterForm(props) {
       dispatch(setShow(true));
       dispatch(setMessage('User Created'));
       dispatch(setType('success'));
-      props.handleLoginForm();
+      props.handleSwitch();
     }
   }, [success]);
 
@@ -57,20 +57,6 @@ export default function RegisterForm(props) {
         [name]: value,
       };
     });
-  };
-
-  const handleRegisterData = async () => {
-    await api
-      .post('auth/register', registerFormData)
-      .then((response) => {
-        if (response.status === 200) {
-          props.setUser(response.data);
-          props.handleClose();
-        }
-      })
-      .catch((error) => {
-        props.setRegisterError(true);
-      });
   };
 
   const submitForm = (data) => {
@@ -169,6 +155,7 @@ export default function RegisterForm(props) {
       <Grid container spacing={2} marginBottom={2}>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Name'
             variant='outlined'
@@ -180,6 +167,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             id='outlined-basic'
             label='Email'
             variant='outlined'
@@ -191,6 +179,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             id='outlined-basic'
             label='Password'
             variant='outlined'
@@ -203,6 +192,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             id='outlined-basic'
             label='Confirm password'
             variant='outlined'
@@ -216,6 +206,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             select
             id='outlined-basic'
             label='Country'
@@ -235,6 +226,7 @@ export default function RegisterForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
+            required
             select
             id='outlined-basic'
             label='Genre'
