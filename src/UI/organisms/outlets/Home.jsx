@@ -74,7 +74,7 @@ export default function Playlists() {
             />
             <ImageListItemBar
               noWrap
-              sx={{ textOverflow: 'ellipsis', width: '130px' }}
+              sx={{ textOverflow: 'ellipsis', width: '100px' }}
               title={item.name}
               position='below'
             />
