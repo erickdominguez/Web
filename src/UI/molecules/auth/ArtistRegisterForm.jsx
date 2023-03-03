@@ -6,15 +6,18 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
-import { api } from '../../../helpers/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { registerArtist } from '../../../features/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
 import { setError, setSuccess } from '../../../features/auth/authSlice';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { api } from '../../../helpers/api';
+
 export default function RegisterForm(props) {
   const { loading, error, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const captchaRef = useRef(null);
   const [registerFormData, setRegisterFormData] = useState({
     name: '',
     email: '',
@@ -58,8 +61,12 @@ export default function RegisterForm(props) {
       };
     });
   };
+  const verifyToken = async (token) => {
+    let response = await api.post('captcha', { token });
+    return response.data;
+  };
 
-  const submitForm = (data) => {
+  const submitForm = async (data) => {
     // transform email string to lowercase to avoid case sensitivity issues in login
     data.email = data.email.toLowerCase();
     if (data.password !== confirmPassword) {
@@ -67,7 +74,21 @@ export default function RegisterForm(props) {
       dispatch(setMessage("Passwords don't match"));
       dispatch(setType('warning'));
     } else {
-      dispatch(registerArtist(data));
+      let token = captchaRef.current.getValue();
+      if (token) {
+        let valid_token = await verifyToken(token);
+        if (valid_token.success) {
+          dispatch(registerArtist(data));
+        } else {
+          dispatch(setShow(true));
+          dispatch(setMessage('Invalid captcha'));
+          dispatch(setType('error'));
+        }
+      } else {
+        dispatch(setShow(true));
+        dispatch(setMessage('Confirm captcha'));
+        dispatch(setType('error'));
+      }
     }
   };
 
@@ -243,6 +264,9 @@ export default function RegisterForm(props) {
               </MenuItem>
             ))}
           </TextField>
+        </Grid>
+        <Grid item xs={12}>
+          <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={captchaRef} />
         </Grid>
       </Grid>
       {props.registerError ? (
