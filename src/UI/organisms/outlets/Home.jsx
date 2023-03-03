@@ -58,7 +58,7 @@ export default function Playlists() {
   return (
     <Box p={3}>
       <Typography variant='h2'>Discover new music</Typography>
-      <ImageList sx={{}} cols={10}>
+      <ImageList cols={10}>
         {artistArray.map((item) => (
           <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}>
             <img
@@ -73,8 +73,8 @@ export default function Playlists() {
               }}
             />
             <ImageListItemBar
-              noWrap
-              sx={{ textOverflow: 'ellipsis', width: '130px' }}
+              nowrap
+              sx={{ textOverflow: 'ellipsis', width: '100px' }}
               title={item.name}
               position='below'
             />
