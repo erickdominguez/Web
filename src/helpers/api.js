@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { store } from '../app/store';
+
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000000,
