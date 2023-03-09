@@ -26,7 +26,7 @@ export default function SimpleAccordion() {
     let i;
 
     /* eslint-disable no-bitwise */
-    for (i = 0; i < name.length; i += 1) {
+    for (i = 0; i < name?.length; i += 1) {
       hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
 

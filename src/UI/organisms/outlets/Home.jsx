@@ -38,9 +38,7 @@ export default function Playlists() {
       .then((response) => {
         setArtistArray(response.data);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const albums = async () => {
@@ -50,9 +48,7 @@ export default function Playlists() {
         setAlbumData(response.data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   return (

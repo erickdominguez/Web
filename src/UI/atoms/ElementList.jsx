@@ -43,9 +43,7 @@ export default function SongList() {
 
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const like = async (songId) => {
@@ -65,9 +63,7 @@ export default function SongList() {
         config,
       )
       .then((response) => {})
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   // const unlike = async (songId) => {

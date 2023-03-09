@@ -40,7 +40,7 @@ export default function LikedSongs() {
       .get(`users?id=${userInfo?._id}`, config)
       .then((response) => {
         Promise.all(
-          response?.data?.likes.map((song) => {
+          response?.data?.likes?.map((song) => {
             return album(song.album);
           }),
         ).then((response) => {
@@ -49,9 +49,7 @@ export default function LikedSongs() {
         setLikedSongs(response?.data?.likes);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const album = async (id) => {
@@ -69,9 +67,7 @@ export default function LikedSongs() {
       .then((response) => {
         return response;
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const unlike = async (songId) => {
@@ -88,9 +84,7 @@ export default function LikedSongs() {
     await api
       .delete('users/dislike', config)
 
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   return (

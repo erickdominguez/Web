@@ -31,9 +31,7 @@ export default function ArtistProfile() {
         setAlbumsList(response?.data?.albums);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   return (

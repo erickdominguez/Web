@@ -33,9 +33,7 @@ export default function Playlists() {
         setAlbumData(response.data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   return (

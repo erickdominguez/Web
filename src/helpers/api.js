@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { store } from '../app/store';
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000000,
@@ -8,3 +8,15 @@ export const api = axios.create({
     'Content-Type': '*/*',
   },
 });
+
+api.interceptors.response.use(
+  (response) => {
+    if (response.config.warn !== false) {
+      //warnings here
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error.message);
+  },
+);
