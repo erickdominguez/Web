@@ -15,7 +15,7 @@ export const loginUser = createAsyncThunk(
       const response = await api.get(`auth/login?email=${email}&password=${password}`, config);
 
       localStorage.setItem('userToken', response.data.token);
-
+      localStorage.setItem('userInfo', JSON.stringify(response.data.user));
       return response.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -37,6 +37,7 @@ export const loginArtist = createAsyncThunk(
         },
       };
       const response = await api.get(`artist/login?email=${email}&password=${password}`, config);
+      localStorage.setItem('userInfo', JSON.stringify(response.data.artist));
       localStorage.setItem('userToken', response.data.token);
       return response.data;
     } catch (error) {

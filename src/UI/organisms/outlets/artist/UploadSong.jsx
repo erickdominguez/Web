@@ -42,9 +42,7 @@ export default function UploadSong() {
         setAlbumsList(response?.data?.albums);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const handleFileUpload = (e) => {
@@ -54,7 +52,7 @@ export default function UploadSong() {
     }
     const file = e.target.files[0];
     const { name } = file;
-    console.log(file);
+
     setFilename(name);
 
     setFile(e.target.files[0]);

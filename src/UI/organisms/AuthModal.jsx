@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import LoginTabs from '../molecules/auth/LoginTabs';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import RegisterTabs from '../molecules/auth/RegisterTabs';
-
+import AuthTabs from '../molecules/auth/AuthTabs';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,8 +19,6 @@ export default function BasicModal(props) {
   //state for the forms of login or forms
   const [login, setLogin] = useState(true);
   //functions for handling the switch between register and login forms
-  const handleRegisterForm = () => setLogin(false);
-  const handleLoginForm = () => setLogin(true);
 
   return (
     <div>
@@ -33,17 +29,7 @@ export default function BasicModal(props) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          {login ? (
-            <LoginTabs
-              handleClose={props.handleClose}
-              handleRegisterForm={handleRegisterForm}
-            ></LoginTabs>
-          ) : (
-            <RegisterTabs
-              handleClose={props.handleClose}
-              handleLoginForm={handleLoginForm}
-            ></RegisterTabs>
-          )}
+          <AuthTabs handleClose={props.handleClose}></AuthTabs>
         </Box>
       </Modal>
     </div>

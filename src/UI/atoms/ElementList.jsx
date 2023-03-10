@@ -43,10 +43,10 @@ export default function SongList() {
       };
         const response = await api.get(`album`, config)
         setElement(response.data);
-        console.log(response.data);
+
         setLoading(false);
     } catch(error){
-        console.log(error.toJSON());
+       
       }
   };
 
@@ -59,7 +59,7 @@ export default function SongList() {
       }
      
     } catch (error) {
-      console.log(error.toJSON());
+     
     }
     fetchSongs()
   };
@@ -79,7 +79,6 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => {
-                  console.log(song);
                   let songId = song?._id;
                   let title = song?.title;
                   let artist = element?.author?.name;

@@ -10,3 +10,15 @@ export const api = axios.create({
     token: userToken
   },
 });
+
+api.interceptors.response.use(
+  (response) => {
+    if (response.config.warn !== false) {
+      //warnings here
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error.message);
+  },
+);

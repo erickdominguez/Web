@@ -26,7 +26,6 @@ export default function LikedSongs() {
     fetchLikes();
   }, []);
 
-
   const fetchLikes = async () => {
      const likedSongs = await api.get('song/liked')
      setSongs(likedSongs.data)
@@ -38,7 +37,7 @@ export default function LikedSongs() {
       await api.delete(`users/dislike?songId=${songId}`)
       fetchLikes();
     } catch(err) {
-      console.log(err.toJSON());
+ 
     }
   };
 

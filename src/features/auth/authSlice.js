@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { registerUser, loginUser } from './authActions';
 
+const userInfo = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null;
+const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
+
 const initialState = {
   loading: false,
-  userInfo: {}, // for user object
-  userToken: null, // for storing the JWT
+  userInfo, // for user object
+  userToken, // for storing the JWT
   error: null,
   success: false, // for monitoring the registration process.
 };
-
-// const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null;
 
 const authSlice = createSlice({
   name: 'auth',
@@ -18,7 +21,12 @@ const authSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setSuccess: (state, action) => {
+      state.success = action.payload;
+    },
     logout: (state, action) => {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userInfo');
       state.loading = false;
       state.userInfo = {};
       state.userToken = null;
@@ -57,5 +65,5 @@ const authSlice = createSlice({
     },
   },
 });
-export const { setError, logout } = authSlice.actions;
+export const { setError, logout, setSuccess } = authSlice.actions;
 export default authSlice.reducer;
