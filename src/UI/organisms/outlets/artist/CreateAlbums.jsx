@@ -62,15 +62,15 @@ export default function CreateAlbums() {
         headers: { token: userToken },
       })
       .then((data) => {
-        dispatch(setShow(true));
-        dispatch(setMessage('Album Created'));
-        dispatch(setType('success'));
+        // dispatch(setShow(true));
+        // dispatch(setMessage('Album Created'));
+        // dispatch(setType('success'));
         return data;
       })
       .catch(function (error) {
-        dispatch(setShow(true));
-        dispatch(setMessage('An error ocurred, invalid data'));
-        dispatch(setType('error'));
+        // dispatch(setShow(true));
+        // dispatch(setMessage('An error ocurred, invalid data'));
+        // dispatch(setType('error'));
         return error.response.stauts;
       });
   };

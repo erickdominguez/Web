@@ -1,6 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
 import { registerUser, loginUser } from './authActions';
-
 const userInfo = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
@@ -34,35 +33,35 @@ const authSlice = createSlice({
       state.success = false;
     },
   },
-  extraReducers: {
+  extraReducers: (builder) => {
     // register user
-    [registerUser.pending]: (state) => {
+    builder.addCase(registerUser.pending, (state, action) => {
       state.loading = true;
       state.error = null;
-    },
-    [registerUser.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true; // registration successful
-    },
-    [registerUser.rejected]: (state, { payload }) => {
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = payload;
-    },
+      state.error = action.payload;
+    });
     // login user
-    [loginUser.pending]: (state) => {
+    builder.addCase(loginUser.pending, (state, action) => {
       state.loading = true;
       state.error = null;
-    },
-    [loginUser.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.userInfo = payload.user || payload.artist;
-      state.userToken = payload.token;
-    },
-    [loginUser.rejected]: (state, { payload }) => {
+      state.userInfo = action.payload.user || action.payload.artist;
+      state.userToken = action.payload.token;
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = payload;
-    },
+      state.error = action.payload;
+    });
   },
 });
 export const { setError, logout, setSuccess } = authSlice.actions;
