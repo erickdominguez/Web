@@ -11,8 +11,6 @@ import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
 import { useDispatch } from 'react-redux';
-
-import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 
 export default function UploadSong() {
@@ -20,7 +18,6 @@ export default function UploadSong() {
   const { userInfo, userToken } = useSelector((state) => state.auth);
   const { show } = useSelector((state) => state.alert);
   const gridItemStyle = { width: '100%' };
-  const [loading, setLoading] = useState(true);
   const [albumsList, setAlbumsList] = useState([]);
   const [filename, setFilename] = useState('');
   const [file, setFile] = useState(null);
@@ -43,7 +40,6 @@ export default function UploadSong() {
       .get(`artist?name=${userInfo?.name}`, config)
       .then((response) => {
         setAlbumsList(response?.data?.albums);
-        setLoading(false);
       })
       .catch((error) => {});
   };
@@ -68,40 +64,19 @@ export default function UploadSong() {
     }
   };
 
-  const handleClickVariant = () => () => {
-    // variant could be success, error, warning, info, or default
-    enqueueSnackbar('This is a success message!', {
-      autoHideDuration: null,
-      persist: true,
-      variant: 'progress',
-    });
-  };
-
-  const submitForm = async () => {
+  const submitForm = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('title', title);
-    setLoading(true);
 
-    await api
-      .post(`song?id=${album}`, formData, {
-        headers: { token: userToken },
-      })
-      .then((response) => {
-        dispatch(setShow(true));
-        dispatch(setMessage('Song Uploaded'));
-        dispatch(setType('success'));
-        return response;
-      })
-      .catch(function (error) {
-        dispatch(setShow(true));
-        dispatch(setMessage('An error ocurred, invalid data'));
-        dispatch(setType('error'));
-        return error.response.stauts;
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    enqueueSnackbar(title, {
+      autoHideDuration: null,
+      persist: true,
+      variant: 'progress',
+      data: formData,
+      album: album,
+      userToken: userToken,
+    });
   };
   return (
     <Box p={3}>
@@ -154,13 +129,10 @@ export default function UploadSong() {
           <Box>{filename}</Box>
         </Grid>
       </Grid>
-      {loading ? (
-        <CircularProgress></CircularProgress>
-      ) : (
-        <Button onClick={() => submitForm()} variant='contained' sx={{ marginTop: '18px' }}>
-          Upload
-        </Button>
-      )}
+
+      <Button onClick={() => submitForm()} variant='contained' sx={{ marginTop: '18px' }}>
+        Upload
+      </Button>
     </Box>
   );
 }
