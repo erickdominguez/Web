@@ -11,8 +11,9 @@ import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
 import { useDispatch } from 'react-redux';
-import { useAlert } from '../../../../hooks/useAlert';
+
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSnackbar } from 'notistack';
 
 export default function UploadSong() {
   const dispatch = useDispatch();
@@ -34,6 +35,8 @@ export default function UploadSong() {
       token: userToken,
     },
   };
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const albums = async () => {
     await api
@@ -65,11 +68,21 @@ export default function UploadSong() {
     }
   };
 
+  const handleClickVariant = () => () => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar('This is a success message!', {
+      autoHideDuration: null,
+      persist: true,
+      variant: 'progress',
+    });
+  };
+
   const submitForm = async () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('title', title);
     setLoading(true);
+
     await api
       .post(`song?id=${album}`, formData, {
         headers: { token: userToken },
