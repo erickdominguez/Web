@@ -7,12 +7,16 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePickerAtom from '../../atoms/DatePickerAtom';
 import { registerUser } from '../../../features/auth/authActions';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { setShow, setType, setMessage } from '../../../features/alert/alertSlice';
 import { setError, setSuccess } from '../../../features/auth/authSlice';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { api } from '../../../helpers/api';
+
 export default function RegisterForm(props) {
   const { loading, error, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const captchaRef = useRef(null);
 
   useEffect(() => {
     if (success) {
@@ -22,7 +26,7 @@ export default function RegisterForm(props) {
       dispatch(setShow(true));
       dispatch(setMessage('User Created'));
       dispatch(setType('success'));
-      props.handleLoginForm();
+      props.handleSwitch();
     }
   }, [success]);
   useEffect(() => {
@@ -65,7 +69,11 @@ export default function RegisterForm(props) {
     }
   };
 
-  const submitForm = (data) => {
+  const verifyToken = async (token) => {
+    let response = await api.post('captcha', { token });
+    return response.data;
+  };
+  const submitForm = async (data) => {
     // transform email string to lowercase to avoid case sensitivity issues in login
     data.email = data.email.toLowerCase();
     if (data.password !== confirmPassword) {
@@ -73,7 +81,21 @@ export default function RegisterForm(props) {
       dispatch(setMessage("Passwords don't match"));
       dispatch(setType('warning'));
     } else {
-      dispatch(registerUser(data));
+      let token = captchaRef.current.getValue();
+      if (token) {
+        let valid_token = await verifyToken(token);
+        if (valid_token.success) {
+          dispatch(registerUser(data));
+        } else {
+          dispatch(setShow(true));
+          dispatch(setMessage('Invalid captcha'));
+          dispatch(setType('error'));
+        }
+      } else {
+        dispatch(setShow(true));
+        dispatch(setMessage('Confirm captcha'));
+        dispatch(setType('error'));
+      }
     }
   };
 
@@ -140,6 +162,9 @@ export default function RegisterForm(props) {
             name='birth'
             setFormData={setRegisterFormData}
           ></DatePickerAtom>
+        </Grid>
+        <Grid item xs={12}>
+          <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={captchaRef} />
         </Grid>
       </Grid>
       <Button onClick={() => submitForm(registerFormData)} variant='contained'>

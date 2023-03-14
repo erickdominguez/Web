@@ -13,82 +13,50 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { setSong } from '../../features/player/playerSlice';
+import { Zoom } from '@mui/material';
 export default function SongList() {
   useEffect(() => {
-    songs();
+    fetchSongs();
   }, []);
+
   const dispatch = useDispatch();
-  const { userToken, userInfo } = useSelector((state) => state.auth);
+  const { userToken } = useSelector((state) => state.auth);
   let { id } = useParams();
   const [element, setElement] = useState({});
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
-  const config = {
-    params: {
-      id: id,
-    },
-    headers: {
-      token: userToken,
-    },
-  };
 
-  const songs = async () => {
-    await api
-      .get(`album`, config)
-      .then((response) => {
-        setElement(response.data);
-
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
-  };
-
-  const like = async (songId) => {
-    const config = {
-      headers: {
-        token: userToken,
-      },
-    };
-
-    await api
-      .put(
-        'users/like',
-        {
-          id: userInfo._id,
-          song: songId,
+  const fetchSongs = async () => {
+    try {
+      const config = {
+        params: {
+          id: id,
         },
-        config,
-      )
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+        headers: {
+          token: userToken,
+        },
+      };
+      const response = await api.get(`album`, config);
+      setElement(response.data);
+
+      setLoading(false);
+    } catch (error) {}
   };
 
-  // const unlike = async (songId) => {
-  //   const config = {
-  //     data: {
-  //       id: userInfo._id,
-  //       song: songId,
-  //     },
-  //     headers: {
-  //       token: userToken,
-  //     },
-  //   };
-
-  //   console.log(userInfo._id + ' ' + songId);
-  //   await api
-  //     .delete('users/dislike', config)
-  //     .then((response) => console.log(response))
-  //     .catch((error) => {
-  //       console.log(error.toJSON());
-  //     });
-  // };
+  const toggleLike = async (songId, isLiked) => {
+    try {
+      if (isLiked) {
+        await api.delete(`users/dislike?songId=${songId}`);
+      } else {
+        await api.put('users/like', { song: songId });
+      }
+    } catch (error) {}
+    fetchSongs();
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -122,7 +90,15 @@ export default function SongList() {
                           secondary={artist}
                         />
                         <ListItemText secondary={element.name} />
+                        <ListItemText secondary={element.duration} />
                       </ListItemButton>
+                      {song.like ? (
+                        <Zoom in={true}>
+                          <FavoriteIcon onClick={() => toggleLike(songId, song.like)} />
+                        </Zoom>
+                      ) : (
+                        <FavoriteBorderOutlinedIcon onClick={() => toggleLike(songId, song.like)} />
+                      )}
                     </ListItem>
                   );
                 })}

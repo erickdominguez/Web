@@ -1,9 +1,10 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import ArtistRegisterForm from './ArtistRegisterForm';
+import UserRegisterForm from './UserRegisterForm';
 import ArtistLoginForm from './ArtistLoginForm';
 import UserLoginForm from '../auth/UserLoginForm';
 import Button from '@mui/material/Button';
@@ -25,10 +26,14 @@ function TabPanel(props) {
 }
 
 export default function CenteredTabs(props) {
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = useState(0);
+  const [loginSwitch, setLoginSwitch] = useState(true);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleSwitch = () => {
+    setLoginSwitch(!loginSwitch);
   };
 
   return (
@@ -37,21 +42,28 @@ export default function CenteredTabs(props) {
         <Tab label='Users' />
         <Tab label='Artists' />
       </Tabs>
+
       <TabPanel value={value} index={0}>
-        <UserLoginForm
-          handleClose={props.handleClose}
-          loginError={props.loginError}
-          handleRegisterForm={props.handleRegisterForm}
-        ></UserLoginForm>
+        {loginSwitch ? (
+          <UserLoginForm handleClose={props.handleClose}></UserLoginForm>
+        ) : (
+          <UserRegisterForm
+            handleClose={props.handleClose}
+            handleSwitch={handleSwitch}
+          ></UserRegisterForm>
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ArtistLoginForm
-          handleClose={props.handleClose}
-          loginError={props.loginError}
-          handleRegisterForm={props.handleRegisterForm}
-        ></ArtistLoginForm>
+        {loginSwitch ? (
+          <ArtistLoginForm handleClose={props.handleClose}></ArtistLoginForm>
+        ) : (
+          <ArtistRegisterForm
+            handleSwitch={handleSwitch}
+            handleClose={props.handleClose}
+          ></ArtistRegisterForm>
+        )}
       </TabPanel>
-      <Button onClick={props.handleRegisterForm}>Don't have an account? Register now</Button>
+      <Button onClick={handleSwitch}>Already have an account? Log in now</Button>
     </Box>
   );
 }

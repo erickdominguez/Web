@@ -38,9 +38,7 @@ export default function Playlists() {
       .then((response) => {
         setArtistArray(response.data);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   const albums = async () => {
@@ -50,15 +48,13 @@ export default function Playlists() {
         setAlbumData(response.data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.toJSON());
-      });
+      .catch((error) => {});
   };
 
   return (
     <Box p={3}>
       <Typography variant='h2'>Discover new music</Typography>
-      <ImageList sx={{}} cols={10}>
+      <ImageList cols={10}>
         {artistArray.map((item) => (
           <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}>
             <img
@@ -73,8 +69,8 @@ export default function Playlists() {
               }}
             />
             <ImageListItemBar
-              noWrap
-              sx={{ textOverflow: 'ellipsis', width: '130px' }}
+              nowrap
+              sx={{ textOverflow: 'ellipsis', width: '100px' }}
               title={item.name}
               position='below'
             />
