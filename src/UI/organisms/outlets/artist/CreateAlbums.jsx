@@ -65,7 +65,6 @@ export default function CreateAlbums() {
     formData.append('name', data.name);
     formData.append('type', data.type);
     formData.append('date', data.date);
-    console.log(pond.current.getFile(0).file);
     await api
       .post(`album?key=${userInfo?._id}`, formData, {
         headers: { token: userToken, 'Content-Type': '*/*' },
@@ -112,7 +111,6 @@ export default function CreateAlbums() {
             name='files' /* sets the file input name, it's filepond by default */
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />
-          <img src={file}></img>
         </Grid>
       </Grid>
       <Button onClick={() => submitForm(data)} variant='contained'>

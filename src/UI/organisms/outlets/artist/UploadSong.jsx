@@ -6,13 +6,19 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import { api } from '../../../../helpers/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
 import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function UploadSong() {
   const dispatch = useDispatch();
   const { userInfo, userToken } = useSelector((state) => state.auth);
@@ -23,7 +29,8 @@ export default function UploadSong() {
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState('');
   const [album, setAlbum] = useState('');
-
+  const [files, setFiles] = useState([]);
+  const pond = useRef(null);
   useEffect(() => {
     albums();
   }, []);
@@ -66,9 +73,9 @@ export default function UploadSong() {
 
   const submitForm = () => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('song', pond.current.getFile(0).file);
     formData.append('title', title);
-
+    console.log(pond.current.getFile(0).file);
     enqueueSnackbar(title, {
       autoHideDuration: null,
       persist: true,
@@ -117,16 +124,15 @@ export default function UploadSong() {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            component='label'
-            variant='outlined'
-            startIcon={<UploadFileIcon />}
-            sx={{ marginRight: '1rem' }}
-          >
-            Select Song
-            <input type='file' accept='.mp3' hidden onChange={handleFileUpload} />
-          </Button>
-          <Box>{filename}</Box>
+          <FilePond
+            ref={pond}
+            files={files}
+            onupdatefiles={setFiles}
+            allowMultiple={false}
+            maxFiles={1}
+            name='files' /* sets the file input name, it's filepond by default */
+            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          />
         </Grid>
       </Grid>
 
