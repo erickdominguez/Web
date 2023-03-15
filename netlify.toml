@@ -3,3 +3,8 @@
   to = "http://54.161.99.23:4000/api/:splat"
   status = 200
   force = true
+
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
