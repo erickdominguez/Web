@@ -7,7 +7,7 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { api } from '../../helpers/api';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,66 +53,61 @@ const StyledInputBase = styled(TextField)(({ theme }) => ({
   },
 }));
 
-
-const iconResult = type => {
-  if (type === 'song'){
-    return <AudiotrackIcon/>
-  } else if (type === 'album'){
-    return <AlbumIcon/>
+const iconResult = (type) => {
+  if (type === 'song') {
+    return <AudiotrackIcon />;
+  } else if (type === 'album') {
+    return <AlbumIcon />;
   }
-  return <PersonIcon/>
-}
+  return <PersonIcon />;
+};
 export default function SearchAppBar() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState();
   const navigate = useNavigate();
 
-  const handleSearch = async search => {
+  const handleSearch = async (search) => {
     if (search && search.length > 0) {
-      setLoading(true)
-      const {data} = await api.get(`/song/search?search=${search}`)
-      setResults(data)
-      setLoading(true)
+      setLoading(true);
+      const { data } = await api.get(`/song/search?search=${search}`);
+      setResults(data);
+      setLoading(true);
     }
- 
-  }
+  };
 
-  useEffect(() => {
- 
-  }, [])
+  useEffect(() => {}, []);
   const linkStyle = {
-    textDecoration: 'none'
+    textDecoration: 'none',
   };
   return (
     <Autocomplete
-    id="search"
-    sx={{ width: 250 }}
-    options={results}
-    loading={loading}
-    getOptionLabel={(option) => option.name || option.title}
-    groupBy={option => option.type}
-    loadingText='Buscando...'
-    disabledItemsFocusable={true}
-    renderOption={(props, option) => {
-      return (
-          <Box  {...props} onClick = {() => {
-            if (option.type === 'album') {
-              navigate(`${option.type}s/${option?._id}`)
-            }
-            
-            }} >
+      id='search'
+      sx={{ width: 250 }}
+      options={results}
+      loading={loading}
+      getOptionLabel={(option) => option.name || option.title}
+      groupBy={(option) => option.type}
+      loadingText='Searching...'
+      disabledItemsFocusable={true}
+      renderOption={(props, option) => {
+        return (
+          <Box
+            {...props}
+            onClick={() => {
+              if (option.type === 'album') {
+                navigate(`${option.type}s/${option?._id}`);
+              }
+            }}
+          >
             {iconResult(option.type)}
-            <p style={{fontSize: 11, marginLeft: 10}}>{`  ${option.name || option.title}`}</p>
-        </Box>
-       
-      )
-    }}
-    renderInput={(params) => (
-      <StyledInputBase  {...params}  placeholder='Search…' />
-    )}
-    onInputChange={(event, newInputValue) => {
-      handleSearch(newInputValue);
-    }}
-  />
+            <p style={{ fontSize: 11, marginLeft: 10 }}>{`  ${option.name || option.title}`}</p>
+          </Box>
+        );
+      }}
+      renderInput={(params) => <StyledInputBase {...params} placeholder='Search…' />}
+      onInputChange={(event, newInputValue) => {
+        handleSearch(newInputValue);
+      }}
+    />
   );
 }
