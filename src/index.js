@@ -17,7 +17,8 @@ import LikedSongs from './UI/organisms/outlets/LikedSongs';
 import { Provider } from 'react-redux';
 import store from './app/store';
 import AlbumsList from './UI/atoms/AlbumsList';
-
+import { SnackbarProvider } from 'notistack';
+import LinearProgress from './UI/atoms/LinearProgress';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -77,7 +78,13 @@ root.render(
     <CssBaseline />
 
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <SnackbarProvider
+        Components={{
+          progress: LinearProgress,
+        }}
+      >
+        <RouterProvider router={router} />
+      </SnackbarProvider>
     </Provider>
   </ThemeProvider>,
 );
