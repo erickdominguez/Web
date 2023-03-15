@@ -20,7 +20,7 @@ import { useTheme } from '@mui/material';
 
 export default function Sidebar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const drawerWidth = 240;
+  const drawerWidth = 255;
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };

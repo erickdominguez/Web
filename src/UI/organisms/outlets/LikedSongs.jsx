@@ -72,7 +72,7 @@ export default function LikedSongs() {
                         <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${song.album}`} />
                       </ListItemAvatar>
                       <ListItemText primary={song.title} secondary={artist} />
-                      <ListItemText secondary={album} />
+                      <ListItemText secondary={album.name} />
                       <ListItemText secondary={song.duration} />
                     </ListItemButton>
                     <FavoriteIcon

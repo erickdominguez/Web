@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,13 @@ import { useSelector } from 'react-redux';
 import { api } from '../../../../helpers/api';
 import { setShow, setMessage, setType } from '../../../../features/alert/alertSlice';
 import { useDispatch } from 'react-redux';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function CreateAlbums() {
   const { userToken } = useSelector((state) => state.auth);
   const { userInfo } = useSelector((state) => state.auth);
@@ -20,7 +26,10 @@ export default function CreateAlbums() {
   const dispatch = useDispatch();
   const [filename, setFilename] = useState('');
   const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [data, setData] = useState({ name: '', date: '', type: 'ALBUM' });
+  const pond = useRef(null);
+
   const handleFileUpload = (e) => {
     if (!e.target.files) {
       setFilename('No file uploaded');
@@ -52,14 +61,14 @@ export default function CreateAlbums() {
   const submitForm = async (data) => {
     const formData = new FormData();
 
-    formData.append('img', file);
+    formData.append('img', pond.current.getFile(0).file);
     formData.append('name', data.name);
     formData.append('type', data.type);
     formData.append('date', data.date);
-
+    console.log(pond.current.getFile(0).file);
     await api
       .post(`album?key=${userInfo?._id}`, formData, {
-        headers: { token: userToken },
+        headers: { token: userToken, 'Content-Type': '*/*' },
       })
       .then((data) => {
         dispatch(setShow(true));
@@ -71,7 +80,7 @@ export default function CreateAlbums() {
         dispatch(setShow(true));
         dispatch(setMessage('An error ocurred, invalid data'));
         dispatch(setType('error'));
-        return error.response.stauts;
+        return error.response?.status;
       });
   };
 
@@ -94,16 +103,15 @@ export default function CreateAlbums() {
           <DatePickerAtom label='Date' name='date' setFormData={setData}></DatePickerAtom>
         </Grid>
         <Grid item xs={12}>
-          <Button
-            component='label'
-            variant='outlined'
-            startIcon={<UploadFileIcon />}
-            sx={{ marginRight: '1rem' }}
-          >
-            Select cover image
-            <input type='file' accept='.jpeg' hidden onChange={handleFileUpload} />
-          </Button>
-          <Box>{filename}</Box>
+          <FilePond
+            ref={pond}
+            files={files}
+            onupdatefiles={setFiles}
+            allowMultiple={false}
+            maxFiles={1}
+            name='files' /* sets the file input name, it's filepond by default */
+            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          />
           <img src={file}></img>
         </Grid>
       </Grid>
