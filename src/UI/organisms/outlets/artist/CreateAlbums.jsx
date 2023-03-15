@@ -65,7 +65,7 @@ export default function CreateAlbums() {
     formData.append('name', data.name);
     formData.append('type', data.type);
     formData.append('date', data.date);
-    console.log(pond.current.getFile(0).file);
+
     await api
       .post(`album?key=${userInfo?._id}`, formData, {
         headers: { token: userToken, 'Content-Type': '*/*' },
