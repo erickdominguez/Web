@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Alert from '../../UI/atoms/Alert';
 import NavigationBar from '../../UI/organisms/NavigationBar';
-
+import ArtistMenu from '../../UI/molecules/ArtistMenus';
 export default function Root() {
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo, userToken } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const isObjectEmpty = (objectName) => {
@@ -27,6 +27,7 @@ export default function Root() {
       </Box>
       {/*Views or Playlists?*/}
       <MusicPlayer></MusicPlayer>
+      {userToken && userInfo?.role === 'ASSOCIATE' ? <ArtistMenu></ArtistMenu> : null}
     </Box>
   );
 }
