@@ -27,18 +27,16 @@ export default function LikedSongs() {
   }, []);
 
   const fetchLikes = async () => {
-     const likedSongs = await api.get('song/liked')
-     setSongs(likedSongs.data)
-     setLoading(false)
+    const likedSongs = await api.get('song/liked');
+    setSongs(likedSongs.data);
+    setLoading(false);
   };
 
   const unlike = async (songId) => {
     try {
-      await api.delete(`users/dislike?songId=${songId}`)
+      await api.delete(`users/dislike?songId=${songId}`);
       fetchLikes();
-    } catch(err) {
- 
-    }
+    } catch (err) {}
   };
 
   return (
@@ -58,18 +56,22 @@ export default function LikedSongs() {
             ) : (
               songs.map((song, index) => {
                 const { artist } = song;
-                const  { album } = song;
+                const { album } = song;
                 const songId = song?._id;
                 const title = song?.title;
-                const id = song?.album;
+                const id = song?.album?._id;
+                console.log(song.album);
                 return (
                   <ListItem disablePadding>
                     <ListItemButton
                       onClick={() => {
                         dispatch(setSong({ songId, title, artist, id }));
-                      }}>
+                      }}
+                    >
                       <ListItemAvatar>
-                        <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${song.album}`} />
+                        <Avatar
+                          src={`${process.env.REACT_APP_API_URL}/media?id=${song?.album?._id}`}
+                        />
                       </ListItemAvatar>
                       <ListItemText primary={song.title} secondary={artist} />
                       <ListItemText secondary={album.name} />
