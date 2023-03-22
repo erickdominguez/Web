@@ -19,29 +19,30 @@ import { useDispatch } from 'react-redux';
 import { setSong } from '../../features/player/playerSlice';
 import { Zoom } from '@mui/material';
 export default function SongList() {
-  useEffect(() => {
-    fetchSongs();
-  }, []);
-
   const dispatch = useDispatch();
-  const { userToken } = useSelector((state) => state.auth);
-  let { id } = useParams();
+  let { id, songId } = useParams();
   const [element, setElement] = useState({});
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
+  useEffect(() => {
+    fetchSongs();
+
+  }, [id]);
+
+  
+  useEffect(() => {
+    if (songId && element?.songs) {
+      const songToPlay = element?.songs.find(s => s._id === songId);
+      const { title, artist, id} = songToPlay;
+      dispatch(setSong({ songId, title, artist, id }))
+    }
+     
+  }, [songId, element]);
 
   const fetchSongs = async () => {
     try {
-      const config = {
-        params: {
-          id: id,
-        },
-        headers: {
-          token: userToken,
-        },
-      };
-      const response = await api.get(`album`, config);
-      setElement(response.data);
+        const response = await api.get(`album`, { params: { id }})
+        setElement(response.data);
 
       setLoading(false);
     } catch (error) {}
@@ -71,16 +72,12 @@ export default function SongList() {
             {loading
               ? null
               : element.songs.map((song) => {
-                  let songId = song?._id;
+                  let _songId = song?._id;
                   let title = song?.title;
                   let artist = element?.author?.name;
                   return (
-                    <ListItem>
-                      <ListItemButton
-                        onClick={() => {
-                          dispatch(setSong({ songId, title, artist, id }));
-                        }}
-                      >
+                    <ListItem selected={_songId === songId}>
+                      <ListItemButton onClick={() => dispatch(setSong({ songId: _songId, title, artist, id }))}>
                         <ListItemAvatar>
                           <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${id}`} />
                         </ListItemAvatar>
@@ -92,13 +89,14 @@ export default function SongList() {
                         <ListItemText secondary={element.name} />
                         <ListItemText secondary={element.duration} />
                       </ListItemButton>
-                      {song.like ? (
-                        <Zoom in={true}>
-                          <FavoriteIcon onClick={() => toggleLike(songId, song.like)} />
-                        </Zoom>
-                      ) : (
-                        <FavoriteBorderOutlinedIcon onClick={() => toggleLike(songId, song.like)} />
-                      )}
+                     { song.like 
+                     ?  
+                     <Zoom in={true} >
+                        <FavoriteIcon onClick={() => toggleLike(_songId, song.like )}  />
+                     </Zoom>
+                     :( <FavoriteBorderOutlinedIcon onClick={() => toggleLike(_songId, song.like )}  />)  
+                     }
+                    
                     </ListItem>
                   );
                 })}

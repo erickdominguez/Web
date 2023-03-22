@@ -21,6 +21,7 @@ import { SnackbarProvider } from 'notistack';
 import LinearProgress from './UI/atoms/LinearProgress';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ArtistProfile from './UI/molecules/profile/ArtistProfile';
 
 const darkTheme = createTheme({
   palette: {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: 'artists/:id',
+        element: <ArtistProfile />,
+      },
+      {
         path: 'uploadSong',
         element: (
           <ProtectedRouteArtist>
@@ -98,7 +103,11 @@ const router = createBrowserRouter([
             element: <AlbumsList />,
           },
           {
-            path: ':id',
+            path: ':id/',
+            element: <SongList />,
+          },
+          {
+            path: ':id/:songId',
             element: <SongList />,
           },
         ],
