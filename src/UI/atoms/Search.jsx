@@ -70,7 +70,7 @@ export default function SearchAppBar() {
   const handleSearch = async (search) => {
     if (search && search.length > 0) {
       setLoading(true);
-      const { data } = await api.get(`/song/search?search=${search}`);
+      const { data } = await api.get(`/song/search?search=${search}`, { warn: false });
       setResults(data);
       setLoading(true);
     }

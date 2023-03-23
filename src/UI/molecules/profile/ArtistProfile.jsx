@@ -18,18 +18,25 @@ export default function ArtistProfile() {
     textDecoration: 'none',
   };
 
+  const config = {
+    warn: false,
+  };
+
+
   useEffect(() => {
     albums();
   }, []);
 
   const albums = async () => {
+
    try {
-      const response  = await api.get(`artist?id=${id}`)
+      const response  = await api.get(`artist?id=${id}`, config)
       setArtist(response?.data);
       setLoading(false);
    } catch (e) {
 
    }
+
   };
 
   return (

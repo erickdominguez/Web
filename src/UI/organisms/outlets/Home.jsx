@@ -30,6 +30,7 @@ export default function Playlists() {
     headers: {
       token: userToken,
     },
+    warn: false,
   };
 
   const artists = async () => {

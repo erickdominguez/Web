@@ -41,8 +41,10 @@ export default function SongList() {
 
   const fetchSongs = async () => {
     try {
-        const response = await api.get(`album`, { params: { id }})
+
+        const response = await api.get(`album`, { params: { id }, warn: false,})
         setElement(response.data);
+
 
       setLoading(false);
     } catch (error) {}
