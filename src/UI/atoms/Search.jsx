@@ -53,14 +53,15 @@ const StyledInputBase = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const iconResult = (type) => {
-  if (type === 'song') {
-    return <AudiotrackIcon />;
-  } else if (type === 'album') {
-    return <AlbumIcon />;
+
+const iconResult = type => {
+  if (type === 'song'){
+    return <AudiotrackIcon/>
+  } else if (type === 'album'){
+    return <AlbumIcon/>
   }
-  return <PersonIcon />;
-};
+  return <PersonIcon/>
+}
 export default function SearchAppBar() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState();
@@ -95,6 +96,12 @@ export default function SearchAppBar() {
             {...props}
             onClick={() => {
               if (option.type === 'album') {
+                navigate(`${option.type}s/${option?._id}`);
+              }
+              if (option.type === 'song') {
+                navigate(`albums/${option?.album}/${option?._id}`);
+              }
+              if (option.type === 'artist') {
                 navigate(`${option.type}s/${option?._id}`);
               }
             }}

@@ -57,7 +57,8 @@ export default function Playlists() {
       <Typography variant='h2'>Discover new music</Typography>
       <ImageList cols={10}>
         {artistArray.map((item) => (
-          <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}>
+          <Link to={`artists/${item?._id}`} style={linkStyle}>
+           <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`} >
             <img
               src={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
               srcSet={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
@@ -76,6 +77,8 @@ export default function Playlists() {
               position='below'
             />
           </ImageListItem>
+        </Link>
+         
         ))}
       </ImageList>
       <Grid container spacing={3}>
