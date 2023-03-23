@@ -27,7 +27,7 @@ export default function LikedSongs() {
   }, []);
 
   const fetchLikes = async () => {
-    const likedSongs = await api.get('song/liked');
+    const likedSongs = await api.get('song/liked', { warn: false });
     setSongs(likedSongs.data);
     setLoading(false);
   };

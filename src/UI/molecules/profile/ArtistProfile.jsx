@@ -15,9 +15,7 @@ export default function ArtistProfile() {
     textDecoration: 'none',
   };
   const config = {
-    headers: {
-      token: userToken,
-    },
+    warn: false,
   };
 
   useEffect(() => {
@@ -26,7 +24,7 @@ export default function ArtistProfile() {
 
   const albums = async () => {
     await api
-      .get(`artist?name=${userInfo?.name}`, config)
+      .get(`artist?id=${userInfo?.name}`, config)
       .then((response) => {
         setAlbumsList(response?.data?.albums);
         setLoading(false);

@@ -70,7 +70,7 @@ export default function RegisterForm(props) {
   };
 
   const verifyToken = async (token) => {
-    let response = await api.post('captcha', { token });
+    let response = await api.post('captcha', { token }, { warn: false });
     return response.data;
   };
   const submitForm = async (data) => {

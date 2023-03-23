@@ -23,9 +23,7 @@ const LinearProgressSnack = React.forwardRef((props, ref) => {
       })
       .finally(() => {
         setLoading(false);
-        setTimeout(() => {
-          closeSnackbar(id);
-        }, 5000);
+        closeSnackbar(id);
       });
   }, []);
 

@@ -39,6 +39,7 @@ export default function SongList() {
         headers: {
           token: userToken,
         },
+        warn: false,
       };
       const response = await api.get(`album`, config);
       setElement(response.data);
