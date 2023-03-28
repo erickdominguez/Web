@@ -34,13 +34,13 @@ export default function LikedSongs() {
 
   const unlike = async (songId) => {
     try {
-      await api.delete(`users/dislike?songId=${songId}`);
+      await api.delete(`like`, { params: { songId }, warn: false });
       fetchLikes();
     } catch (err) {}
   };
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
       <Grid container spacing={3} p={3}>
         <Grid item xs={12}>
           <Box>
@@ -48,7 +48,7 @@ export default function LikedSongs() {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <List>
+          <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {loading ? (
               <Grid>
                 <CircularProgress />
@@ -73,14 +73,15 @@ export default function LikedSongs() {
                           src={`${process.env.REACT_APP_API_URL}/media?id=${song?.album?._id}`}
                         />
                       </ListItemAvatar>
-                      <ListItemText primary={song.title} secondary={artist} />
-                      <ListItemText secondary={album.name} />
+                      <ListItemText
+                        sx={{ width: '80px' }}
+                        primary={song.title}
+                        secondary={artist}
+                      />
+                      <ListItemText secondary={album.name} sx={{ width: '80px' }} />
                       <ListItemText secondary={song.duration} />
                     </ListItemButton>
-                    <FavoriteIcon
-                      sx={{ color: theme.palette.primary.dark }}
-                      onClick={() => unlike(song._id)}
-                    ></FavoriteIcon>
+                    <FavoriteIcon onClick={() => unlike(song._id)}></FavoriteIcon>
                   </ListItem>
                 );
               })

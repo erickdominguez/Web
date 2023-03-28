@@ -42,7 +42,7 @@ export default function ControlledOpenSpeedDial() {
   return (
     <SpeedDial
       ariaLabel='SpeedDial controlled open example'
-      sx={{ position: 'absolute', bottom: 24, right: 24 }}
+      sx={{ position: 'fixed', bottom: 170, right: 24 }}
       icon={<SpeedDialIcon />}
       onClose={handleClose}
       onOpen={handleOpen}

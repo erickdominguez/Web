@@ -14,6 +14,7 @@ import AlbumCard from '../../atoms/ElementCard';
 
 const linkStyle = {
   textDecoration: 'none',
+  color: 'white',
 };
 
 export default function Playlists() {
@@ -58,27 +59,33 @@ export default function Playlists() {
       <ImageList cols={10}>
         {artistArray.map((item) => (
           <Link to={`artists/${item?._id}`} style={linkStyle}>
-           <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`} >
-            <img
-              src={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
-              srcSet={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
-              alt={item.name}
-              loading='lazy'
-              style={{
-                height: '100px',
-                width: '100px',
-                borderRadius: '50%',
-              }}
-            />
-            <ImageListItemBar
-              nowrap
-              sx={{ textOverflow: 'ellipsis', width: '100px' }}
-              title={item.name}
-              position='below'
-            />
-          </ImageListItem>
-        </Link>
-         
+            <ImageListItem key={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}>
+              <img
+                src={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
+                srcSet={`${process.env.REACT_APP_API_URL}/media?id=${item._id}`}
+                alt={item.name}
+                loading='lazy'
+                style={{
+                  height: '100px',
+                  width: '100px',
+                  borderRadius: '50%',
+                }}
+              />
+              <ImageListItemBar
+                nowrap
+                sx={{
+                  textOverflow: 'ellipsis',
+                  width: '100px',
+                }}
+                title={
+                  <Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+                    {item.name}
+                  </Typography>
+                }
+                position='below'
+              ></ImageListItemBar>
+            </ImageListItem>
+          </Link>
         ))}
       </ImageList>
       <Grid container spacing={3}>

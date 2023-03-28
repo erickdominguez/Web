@@ -24,27 +24,23 @@ export default function SongList() {
   const [element, setElement] = useState({});
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
+  const { userToken } = useSelector((state) => state.auth);
   useEffect(() => {
     fetchSongs();
-
   }, [id]);
 
-  
   useEffect(() => {
     if (songId && element?.songs) {
-      const songToPlay = element?.songs.find(s => s._id === songId);
-      const { title, artist, id} = songToPlay;
-      dispatch(setSong({ songId, title, artist, id }))
+      const songToPlay = element?.songs.find((s) => s._id === songId);
+      const { title, artist } = songToPlay;
+      dispatch(setSong({ songId, title, artist, id }));
     }
-     
   }, [songId, element]);
 
   const fetchSongs = async () => {
     try {
-
-        const response = await api.get(`album`, { params: { id }, warn: false,})
-        setElement(response.data);
-
+      const response = await api.get(`album`, { params: { id }, warn: false });
+      setElement(response.data);
 
       setLoading(false);
     } catch (error) {}
@@ -53,9 +49,9 @@ export default function SongList() {
   const toggleLike = async (songId, isLiked) => {
     try {
       if (isLiked) {
-        await api.delete(`users/dislike?songId=${songId}`);
+        await api.delete(`like`, { params: { songId }, warn: false });
       } else {
-        await api.put('users/like', { song: songId });
+        await api.put(`like`, {}, { params: { songId }, warn: false });
       }
     } catch (error) {}
     fetchSongs();
@@ -77,9 +73,12 @@ export default function SongList() {
                   let _songId = song?._id;
                   let title = song?.title;
                   let artist = element?.author?.name;
+                  console.log(song);
                   return (
                     <ListItem selected={_songId === songId}>
-                      <ListItemButton onClick={() => dispatch(setSong({ songId: _songId, title, artist, id }))}>
+                      <ListItemButton
+                        onClick={() => dispatch(setSong({ songId: _songId, title, artist, id }))}
+                      >
                         <ListItemAvatar>
                           <Avatar src={`${process.env.REACT_APP_API_URL}/media?id=${id}`} />
                         </ListItemAvatar>
@@ -89,16 +88,19 @@ export default function SongList() {
                           secondary={artist}
                         />
                         <ListItemText secondary={element.name} />
-                        <ListItemText secondary={element.duration} />
+                        <ListItemText secondary={song.duration} />
                       </ListItemButton>
-                     { song.like 
-                     ?  
-                     <Zoom in={true} >
-                        <FavoriteIcon onClick={() => toggleLike(_songId, song.like )}  />
-                     </Zoom>
-                     :( <FavoriteBorderOutlinedIcon onClick={() => toggleLike(_songId, song.like )}  />)  
-                     }
-                    
+                      {userToken ? (
+                        song.like ? (
+                          <Zoom in={true}>
+                            <FavoriteIcon onClick={() => toggleLike(_songId, song.like)} />
+                          </Zoom>
+                        ) : (
+                          <FavoriteBorderOutlinedIcon
+                            onClick={() => toggleLike(_songId, song.like)}
+                          />
+                        )
+                      ) : null}
                     </ListItem>
                   );
                 })}
